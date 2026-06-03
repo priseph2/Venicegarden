@@ -18,11 +18,11 @@ function vg_register_post_types(): void {
             'not_found'          => __('No brands found', 'venicegarden'),
         ],
         'public'       => true,
-        'has_archive'  => true,
+        'has_archive'  => 'brand-catalog',
         'show_in_rest' => true,
         'menu_icon'    => 'dashicons-store',
         'supports'     => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
-        'rewrite'      => ['slug' => 'brands'],
+        'rewrite'      => ['slug' => 'brand-item'],
     ]);
 
     register_taxonomy('vg_brand_category', 'vg_brand', [
