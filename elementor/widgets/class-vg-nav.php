@@ -118,8 +118,15 @@ class VG_Nav extends \Elementor\Widget_Base {
         $cta_url    = !empty($s['cta_url']['url']) ? esc_url($s['cta_url']['url']) : '#';
         $mob_footer = wp_kses_post($s['mobile_footer_text'] ?? '');
         $scrolled   = !empty($s['force_scrolled']) && $s['force_scrolled'] === 'yes' ? ' scrolled' : '';
-        $menu_slug  = $s['nav_menu'] ?? '';
-        $menu_html  = $menu_slug ? vg_get_menu_by_slug($menu_slug) : '';
+        $menu_slug = $s['nav_menu'] ?? '';
+        if (!$menu_slug) {
+            $locations = get_nav_menu_locations();
+            if (!empty($locations['primary'])) {
+                $menu_obj  = wp_get_nav_menu_object($locations['primary']);
+                $menu_slug = $menu_obj ? $menu_obj->slug : '';
+            }
+        }
+        $menu_html = $menu_slug ? vg_get_menu_by_slug($menu_slug) : '';
         ?>
         <nav class="site-nav<?php echo esc_attr($scrolled); ?>" aria-label="<?php esc_attr_e('Main navigation', 'venicegarden'); ?>">
             <div class="nav-wrap">

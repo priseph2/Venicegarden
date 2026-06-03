@@ -150,7 +150,7 @@ function vg_demo_create_page(string $slug, string $title, string $elementor_json
     update_post_meta($id, '_wp_page_template',        'default');
 
     if ($elementor_json !== '') {
-        update_post_meta($id, '_elementor_data', wp_slash($elementor_json));
+        update_post_meta($id, '_elementor_data', $elementor_json);
     }
 
     return $id;
@@ -211,10 +211,85 @@ function vg_demo_create_cpt(
 function vg_run_demo_import(): array {
     $log = [];
 
-    /* 1 ── Header template */
+    /* 1 ── Navigation menus (created first so nav_menu slug is available for header JSON) */
+    $menu_defs = [
+        'primary' => [
+            'label' => 'Primary Navigation',
+            'items' => [
+                ['Home',           home_url('/')],
+                ['About Us',       home_url('/about/')],
+                ['Our Brands',     home_url('/brands/')],
+                ['Partner Stores', home_url('/partners/')],
+                ['Contact',        home_url('/contact/')],
+            ],
+        ],
+        'footer' => [
+            'label' => 'Footer Navigation',
+            'items' => [
+                ['About Us',       home_url('/about/')],
+                ['Our Brands',     home_url('/brands/')],
+                ['Partner Stores', home_url('/partners/')],
+                ['Contact',        home_url('/contact/')],
+                ['Privacy Policy', home_url('/privacy-policy/')],
+            ],
+        ],
+        'markets' => [
+            'label' => 'Our Markets',
+            'items' => [
+                ['🇳🇬 Nigeria', home_url('/partners/#nigeria')],
+                ['🇬🇭 Ghana',   home_url('/partners/#ghana')],
+                ['🇷🇼 Rwanda',  home_url('/partners/#rwanda')],
+            ],
+        ],
+        'partners' => [
+            'label' => 'Partner Brands',
+            'items' => [
+                ['Fragrance One',    '#'],
+                ['Parfums de Marly', '#'],
+                ['Initio Parfums',   '#'],
+                ['Xerjoff',          '#'],
+            ],
+        ],
+    ];
+
+    $registered_locations = [];
+    $primary_menu_slug    = '';
+    foreach ($menu_defs as $location => $def) {
+        $existing = wp_get_nav_menu_object($def['label']);
+        $menu_id  = $existing ? (int) $existing->term_id : (int) wp_create_nav_menu($def['label']);
+        if (!$menu_id || is_wp_error($menu_id)) continue;
+
+        if (empty(wp_get_nav_menu_items($menu_id))) {
+            foreach ($def['items'] as $pos => [$title, $url]) {
+                wp_update_nav_menu_item($menu_id, 0, [
+                    'menu-item-title'    => $title,
+                    'menu-item-url'      => $url,
+                    'menu-item-status'   => 'publish',
+                    'menu-item-type'     => 'custom',
+                    'menu-item-position' => $pos + 1,
+                ]);
+            }
+        }
+
+        $registered_locations[$location] = $menu_id;
+        if ($location === 'primary') {
+            $menu_obj          = wp_get_nav_menu_object($menu_id);
+            $primary_menu_slug = $menu_obj ? $menu_obj->slug : '';
+        }
+        $log[] = "Menu: {$def['label']}";
+    }
+
+    if (!empty($registered_locations)) {
+        $current = get_theme_mod('nav_menu_locations', []);
+        set_theme_mod('nav_menu_locations', array_merge($current, $registered_locations));
+        $log[] = 'Menus assigned to all theme locations';
+    }
+
+    /* 2 ── Header template */
     $nav_json = vg_elementor_widget_json('venicegarden-nav', [
         'logo_name'          => 'VENICE GARDENS',
         'logo_tagline'       => 'Distribution',
+        'nav_menu'           => $primary_menu_slug,
         'cta_text'           => 'Get in Touch',
         'cta_url'            => ['url' => '/contact', 'is_external' => '', 'nofollow' => ''],
         'transparent_on_top' => 'yes',
@@ -225,7 +300,7 @@ function vg_run_demo_import(): array {
         $log[] = "Header template page created (ID {$header_id}) and set in Theme Settings";
     }
 
-    /* 2 ── Footer template */
+    /* 3 ── Footer template */
     $footer_json = vg_elementor_widget_json('venicegarden-footer', [
         'logo_name'  => 'VENICE GARDENS',
         'logo_sub'   => 'Distribution',
@@ -327,78 +402,6 @@ function vg_run_demo_import(): array {
             ['vg_store_country' => [$country], 'vg_store_type' => [$type]]
         );
         if ($id) $log[] = "Partner Store: {$name}";
-    }
-
-    /* 8 ── Navigation menus */
-    $menu_defs = [
-        'primary' => [
-            'label' => 'Primary Navigation',
-            'items' => [
-                ['Home',           home_url('/')],
-                ['About Us',       home_url('/about/')],
-                ['Our Brands',     home_url('/brands/')],
-                ['Partner Stores', home_url('/partners/')],
-                ['Contact',        home_url('/contact/')],
-            ],
-        ],
-        'footer' => [
-            'label' => 'Footer Navigation',
-            'items' => [
-                ['About Us',       home_url('/about/')],
-                ['Our Brands',     home_url('/brands/')],
-                ['Partner Stores', home_url('/partners/')],
-                ['Contact',        home_url('/contact/')],
-                ['Privacy Policy', home_url('/privacy-policy/')],
-            ],
-        ],
-        'markets' => [
-            'label' => 'Our Markets',
-            'items' => [
-                ['🇳🇬 Nigeria', home_url('/partners/#nigeria')],
-                ['🇬🇭 Ghana',   home_url('/partners/#ghana')],
-                ['🇷🇼 Rwanda',  home_url('/partners/#rwanda')],
-            ],
-        ],
-        'partners' => [
-            'label' => 'Partner Brands',
-            'items' => [
-                ['Fragrance One',    '#'],
-                ['Parfums de Marly', '#'],
-                ['Initio Parfums',   '#'],
-                ['Xerjoff',          '#'],
-            ],
-        ],
-    ];
-
-    $registered_locations = [];
-    foreach ($menu_defs as $location => $def) {
-        $existing = wp_get_nav_menu_object($def['label']);
-        $menu_id  = $existing ? (int) $existing->term_id : (int) wp_create_nav_menu($def['label']);
-
-        if (!$menu_id || is_wp_error($menu_id)) continue;
-
-        /* Only populate items if menu is empty */
-        if (empty(wp_get_nav_menu_items($menu_id))) {
-            foreach ($def['items'] as $pos => [$title, $url]) {
-                wp_update_nav_menu_item($menu_id, 0, [
-                    'menu-item-title'    => $title,
-                    'menu-item-url'      => $url,
-                    'menu-item-status'   => 'publish',
-                    'menu-item-type'     => 'custom',
-                    'menu-item-position' => $pos + 1,
-                ]);
-            }
-        }
-
-        $registered_locations[$location] = $menu_id;
-        $log[] = "Menu: {$def['label']}";
-    }
-
-    /* Assign menus to theme locations */
-    if (!empty($registered_locations)) {
-        $current = get_theme_mod('nav_menu_locations', []);
-        set_theme_mod('nav_menu_locations', array_merge($current, $registered_locations));
-        $log[] = 'Menus assigned to all theme locations';
     }
 
     $log[] = '✓ Import complete — go to Appearance › VG Theme Settings to confirm header/footer templates';

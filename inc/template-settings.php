@@ -87,16 +87,46 @@ function vg_render_theme_settings_page(): void {
     <?php
 }
 
-/**
- * Get the configured header template page ID.
- */
 function vg_get_header_template_id(): int {
     return (int) get_option('vg_header_template_id', 0);
 }
 
-/**
- * Get the configured footer template page ID.
- */
 function vg_get_footer_template_id(): int {
     return (int) get_option('vg_footer_template_id', 0);
 }
+
+/* ── Admin bar shortcuts: Edit Header / Edit Footer ──────────── */
+add_action('admin_bar_menu', function (\WP_Admin_Bar $admin_bar): void {
+    if (!current_user_can('edit_pages')) return;
+
+    $header_id = vg_get_header_template_id();
+    $footer_id = vg_get_footer_template_id();
+
+    if (!$header_id && !$footer_id) return;
+
+    $admin_bar->add_node([
+        'id'    => 'vg-templates',
+        'title' => '⚡ VG Templates',
+        'href'  => admin_url('themes.php?page=vg-theme-settings'),
+    ]);
+
+    if ($header_id) {
+        $admin_bar->add_node([
+            'id'     => 'vg-edit-header',
+            'parent' => 'vg-templates',
+            'title'  => 'Edit Header',
+            'href'   => admin_url('post.php?post=' . $header_id . '&action=elementor'),
+            'meta'   => ['target' => '_blank'],
+        ]);
+    }
+
+    if ($footer_id) {
+        $admin_bar->add_node([
+            'id'     => 'vg-edit-footer',
+            'parent' => 'vg-templates',
+            'title'  => 'Edit Footer',
+            'href'   => admin_url('post.php?post=' . $footer_id . '&action=elementor'),
+            'meta'   => ['target' => '_blank'],
+        ]);
+    }
+}, 100);
