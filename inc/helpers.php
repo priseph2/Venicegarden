@@ -101,7 +101,21 @@ function vg_get_elementor_content(int $post_id): string {
     if (!$post_id || !class_exists('\Elementor\Plugin')) {
         return '';
     }
-    return \Elementor\Plugin::$instance->frontend->get_builder_content_for_display($post_id, true);
+
+    $plugin = \Elementor\Plugin::$instance;
+
+    // Skip nested Elementor rendering inside the editor or preview iframe —
+    // calling get_builder_content_for_display() for a *different* post ID
+    // while Elementor is editing another page causes the "content area not
+    // found" error and breaks the editor.
+    if (
+        isset($plugin->editor)  && $plugin->editor->is_edit_mode()  ||
+        isset($plugin->preview) && $plugin->preview->is_preview_mode()
+    ) {
+        return '';
+    }
+
+    return $plugin->frontend->get_builder_content_for_display($post_id, true);
 }
 
 /**
