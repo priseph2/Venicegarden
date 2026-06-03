@@ -13,6 +13,7 @@ require_once VG_THEME_DIR . '/inc/helpers.php';
 require_once VG_THEME_DIR . '/inc/template-settings.php';
 require_once VG_THEME_DIR . '/inc/elementor.php';
 require_once VG_THEME_DIR . '/inc/contact-handler.php';
+require_once VG_THEME_DIR . '/inc/demo-importer.php';
 
 add_action('after_setup_theme', function (): void {
     add_theme_support('title-tag');

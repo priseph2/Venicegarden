@@ -31,7 +31,8 @@ add_action('wp_enqueue_scripts', function (): void {
 });
 
 add_action('admin_enqueue_scripts', function (string $hook): void {
-    if ($hook !== 'appearance_page_vg-theme-settings') {
+    $vg_pages = ['appearance_page_vg-theme-settings', 'appearance_page_vg-demo-import'];
+    if (!in_array($hook, $vg_pages, true)) {
         return;
     }
     wp_enqueue_style('vg-admin', VG_THEME_URI . '/assets/css/admin.css', [], VG_THEME_VERSION);
