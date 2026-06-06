@@ -34,7 +34,12 @@ function vg_get_active_palette_colors(): array {
     $palettes = vg_get_color_palettes();
 
     if ($key !== 'custom' && isset($palettes[$key])) {
-        return $palettes[$key];
+        $p = $palettes[$key];
+        return [
+            'gold'     => $p['gold'],
+            'obsidian' => $p['obsidian'],
+            'cream'    => $p['cream'],
+        ];
     }
 
     return [
@@ -63,6 +68,7 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize): 
 
     /* Palette selector */
     $palettes     = vg_get_color_palettes();
+    $palette_keys = array_keys($palettes);
     $palette_opts = [];
     foreach ($palettes as $key => $data) {
         $palette_opts[$key] = $data['label'];
@@ -70,10 +76,10 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize): 
 
     $wp_customize->add_setting('vg_color_palette', [
         'default'           => 'a',
-        'sanitize_callback' => function (string $v) use ($palettes): string {
-            return array_key_exists($v, $palettes) ? $v : 'a';
+        'sanitize_callback' => function (string $v) use ($palette_keys): string {
+            return in_array($v, $palette_keys, true) ? $v : 'a';
         },
-        'transport' => 'refresh',
+        'transport' => 'postMessage',
     ]);
     $wp_customize->add_control('vg_color_palette', [
         'label'       => __('Colour Palette', 'venicegarden'),
@@ -91,9 +97,9 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize): 
 
     /* Individual colour pickers — shown only in Custom mode */
     $custom_colors = [
-        'vg_color_gold'     => ['label' => __('Accent / Gold', 'venicegarden'),         'default' => '#b09a5b'],
-        'vg_color_obsidian' => ['label' => __('Dark Background / Obsidian', 'venicegarden'), 'default' => '#111111'],
-        'vg_color_cream'    => ['label' => __('Light Background / Cream', 'venicegarden'),   'default' => '#f7f7f7'],
+        'vg_color_gold'     => ['label' => __('Accent / Gold', 'venicegarden'),               'default' => '#b09a5b'],
+        'vg_color_obsidian' => ['label' => __('Dark Background / Obsidian', 'venicegarden'),   'default' => '#111111'],
+        'vg_color_cream'    => ['label' => __('Light Background / Cream', 'venicegarden'),     'default' => '#f7f7f7'],
     ];
 
     $priority = 10;
@@ -101,7 +107,7 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize): 
         $wp_customize->add_setting($key, [
             'default'           => $opts['default'],
             'sanitize_callback' => 'sanitize_hex_color',
-            'transport'         => 'refresh',
+            'transport'         => 'postMessage',
         ]);
         $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, $key, [
             'label'           => $opts['label'],
@@ -121,10 +127,10 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize): 
     ]);
 
     $contact_fields = [
-        'vg_email_general'      => ['label' => __('General Email', 'venicegarden'),        'default' => 'info@venicegardensdistribution.com'],
-        'vg_email_partnerships' => ['label' => __('Partnerships Email', 'venicegarden'),    'default' => 'partnerships@venicegardensdistribution.com'],
-        'vg_hq_city'            => ['label' => __('HQ City', 'venicegarden'),               'default' => 'Lagos, Nigeria'],
-        'vg_offices_text'       => ['label' => __('Regional Offices Text', 'venicegarden'),  'default' => 'Accra, Ghana · Kigali, Rwanda'],
+        'vg_email_general'      => ['label' => __('General Email', 'venicegarden'),           'default' => 'info@venicegardensdistribution.com'],
+        'vg_email_partnerships' => ['label' => __('Partnerships Email', 'venicegarden'),       'default' => 'partnerships@venicegardensdistribution.com'],
+        'vg_hq_city'            => ['label' => __('HQ City', 'venicegarden'),                  'default' => 'Lagos, Nigeria'],
+        'vg_offices_text'       => ['label' => __('Regional Offices Text', 'venicegarden'),    'default' => 'Accra, Ghana · Kigali, Rwanda'],
     ];
 
     foreach ($contact_fields as $key => $opts) {
@@ -167,15 +173,14 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize): 
     ]);
 });
 
-/* ── Override CSS custom properties via wp_add_inline_style ─── */
-add_action('wp_enqueue_scripts', function (): void {
-    $colors = vg_get_active_palette_colors();
-    wp_add_inline_style('vg-theme',
-        ':root{'
-        . '--gold:'     . sanitize_hex_color($colors['gold'])     . ';'
-        . '--obsidian:' . sanitize_hex_color($colors['obsidian']) . ';'
-        . '--cream:'    . sanitize_hex_color($colors['cream'])    . ';'
+/* ── Output CSS custom properties ────────────────────────────── */
+add_action('wp_head', function (): void {
+    $c = vg_get_active_palette_colors();
+    echo '<style id="vg-palette">'
+        . ':root{'
+        . '--gold:'     . esc_attr($c['gold'])     . ';'
+        . '--obsidian:' . esc_attr($c['obsidian']) . ';'
+        . '--cream:'    . esc_attr($c['cream'])    . ';'
         . '}'
-    );
-}, 30);
-
+        . '</style>' . "\n";
+}, 99);
