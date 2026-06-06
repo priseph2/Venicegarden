@@ -73,7 +73,7 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize): 
         'sanitize_callback' => function (string $v) use ($palettes): string {
             return array_key_exists($v, $palettes) ? $v : 'a';
         },
-        'transport' => 'postMessage',
+        'transport' => 'refresh',
     ]);
     $wp_customize->add_control('vg_color_palette', [
         'label'       => __('Colour Palette', 'venicegarden'),
@@ -101,7 +101,7 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize): 
         $wp_customize->add_setting($key, [
             'default'           => $opts['default'],
             'sanitize_callback' => 'sanitize_hex_color',
-            'transport'         => 'postMessage',
+            'transport'         => 'refresh',
         ]);
         $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, $key, [
             'label'           => $opts['label'],
@@ -177,64 +177,3 @@ add_action('wp_head', function (): void {
         . '}</style>' . "\n";
 }, 20);
 
-/* ── Inline live-preview JS into the Customizer preview iframe ── */
-add_action('customize_preview_init', function (): void {
-    $presets = array_filter(
-        vg_get_color_palettes(),
-        fn($k) => $k !== 'custom',
-        ARRAY_FILTER_USE_KEY
-    );
-
-    /* Strip the 'label' key — JS only needs the colour values */
-    $presets_clean = [];
-    foreach ($presets as $key => $data) {
-        $presets_clean[$key] = [
-            'gold'     => $data['gold'],
-            'obsidian' => $data['obsidian'],
-            'cream'    => $data['cream'],
-        ];
-    }
-
-    $json = wp_json_encode($presets_clean);
-
-    $js = <<<JS
-(function(){
-    "use strict";
-    var palettes={$json};
-    function setCSSVars(g,o,c){
-        var s=document.getElementById("vg-customizer-colors");
-        if(!s){s=document.createElement("style");s.id="vg-customizer-colors";document.head.appendChild(s);}
-        s.textContent=":root{--gold:"+g+";--obsidian:"+o+";--cream:"+c+";}";
-    }
-    wp.customize("vg_color_palette",function(v){
-        v.bind(function(key){
-            if(key!=="custom"&&palettes[key]){
-                setCSSVars(palettes[key].gold,palettes[key].obsidian,palettes[key].cream);
-            }else{
-                setCSSVars(
-                    wp.customize("vg_color_gold").get(),
-                    wp.customize("vg_color_obsidian").get(),
-                    wp.customize("vg_color_cream").get()
-                );
-            }
-        });
-    });
-    ["vg_color_gold","vg_color_obsidian","vg_color_cream"].forEach(function(k){
-        wp.customize(k,function(v){
-            v.bind(function(){
-                if(wp.customize("vg_color_palette").get()==="custom"){
-                    setCSSVars(
-                        wp.customize("vg_color_gold").get(),
-                        wp.customize("vg_color_obsidian").get(),
-                        wp.customize("vg_color_cream").get()
-                    );
-                }
-            });
-        });
-    });
-}());
-JS;
-
-    /* Attach after the core customize-preview script — always present in preview iframe */
-    wp_add_inline_script('customize-preview', $js);
-});
