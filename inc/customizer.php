@@ -167,13 +167,15 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize): 
     ]);
 });
 
-/* ── Output CSS custom properties ────────────────────────────── */
-add_action('wp_head', function (): void {
+/* ── Override CSS custom properties via wp_add_inline_style ─── */
+add_action('wp_enqueue_scripts', function (): void {
     $colors = vg_get_active_palette_colors();
-    echo '<style id="vg-customizer-colors">:root{'
-        . '--gold:'     . esc_attr($colors['gold'])     . ';'
-        . '--obsidian:' . esc_attr($colors['obsidian']) . ';'
-        . '--cream:'    . esc_attr($colors['cream'])    . ';'
-        . '}</style>' . "\n";
-}, 20);
+    wp_add_inline_style('vg-theme',
+        ':root{'
+        . '--gold:'     . sanitize_hex_color($colors['gold'])     . ';'
+        . '--obsidian:' . sanitize_hex_color($colors['obsidian']) . ';'
+        . '--cream:'    . sanitize_hex_color($colors['cream'])    . ';'
+        . '}'
+    );
+}, 30);
 
