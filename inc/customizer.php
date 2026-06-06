@@ -1,17 +1,56 @@
 <?php
 declare(strict_types=1);
 
-/**
- * WordPress Customizer settings for Venice Gardens Distribution theme.
- * These provide site-wide defaults that widgets can reference, but every
- * setting is also editable directly inside Elementor widget controls.
- */
+/* ── Palette definitions (single source of truth) ────────────── */
+function vg_get_color_palettes(): array {
+    return [
+        'a' => [
+            'label'    => __('Option A — Platinum & Champagne', 'venicegarden'),
+            'gold'     => '#b09a5b',
+            'obsidian' => '#111111',
+            'cream'    => '#f7f7f7',
+        ],
+        'b' => [
+            'label'    => __('Option B — Classic Black & Gold', 'venicegarden'),
+            'gold'     => '#c4a747',
+            'obsidian' => '#1a1a1a',
+            'cream'    => '#fafaf8',
+        ],
+        'c' => [
+            'label'    => __('Option C — Monochrome & Brass', 'venicegarden'),
+            'gold'     => '#a8893a',
+            'obsidian' => '#0d0d0d',
+            'cream'    => '#f4f4f4',
+        ],
+        'custom' => [
+            'label' => __('Custom Colors', 'venicegarden'),
+        ],
+    ];
+}
+
+/* Returns the three active colours regardless of mode (preset or custom) */
+function vg_get_active_palette_colors(): array {
+    $key      = get_theme_mod('vg_color_palette', 'a');
+    $palettes = vg_get_color_palettes();
+
+    if ($key !== 'custom' && isset($palettes[$key])) {
+        return $palettes[$key];
+    }
+
+    return [
+        'gold'     => get_theme_mod('vg_color_gold',     '#b09a5b'),
+        'obsidian' => get_theme_mod('vg_color_obsidian', '#111111'),
+        'cream'    => get_theme_mod('vg_color_cream',    '#f7f7f7'),
+    ];
+}
+
+/* ── Customizer registration ─────────────────────────────────── */
 add_action('customize_register', function (WP_Customize_Manager $wp_customize): void {
 
-    /* ── Panel: Venice Gardens ───────────────────────────────── */
+    /* Panel */
     $wp_customize->add_panel('vg_panel', [
         'title'       => __('Venice Gardens Theme', 'venicegarden'),
-        'description' => __('Global theme settings. Most content is also editable in Elementor widgets.', 'venicegarden'),
+        'description' => __('Global theme settings. Most content is editable inside Elementor widgets.', 'venicegarden'),
         'priority'    => 10,
     ]);
 
@@ -22,21 +61,55 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize): 
         'priority' => 10,
     ]);
 
-    $colors = [
-        'vg_color_gold'     => ['label' => __('Gold (Primary Accent)', 'venicegarden'),    'default' => '#C9972A'],
-        'vg_color_obsidian' => ['label' => __('Obsidian (Dark Background)', 'venicegarden'), 'default' => '#0D0D0D'],
-        'vg_color_cream'    => ['label' => __('Cream (Light Background)', 'venicegarden'),  'default' => '#F7F3EC'],
+    /* Palette selector */
+    $palettes     = vg_get_color_palettes();
+    $palette_opts = [];
+    foreach ($palettes as $key => $data) {
+        $palette_opts[$key] = $data['label'];
+    }
+
+    $wp_customize->add_setting('vg_color_palette', [
+        'default'           => 'a',
+        'sanitize_callback' => function (string $v) use ($palettes): string {
+            return array_key_exists($v, $palettes) ? $v : 'a';
+        },
+        'transport' => 'postMessage',
+    ]);
+    $wp_customize->add_control('vg_color_palette', [
+        'label'       => __('Colour Palette', 'venicegarden'),
+        'description' => implode('<br>', [
+            '<strong>A</strong> — Champagne #b09a5b · White #f7f7f7 · Black #111',
+            '<strong>B</strong> — Gold #c4a747 · Off-white #fafaf8 · Charcoal #1a1a1a',
+            '<strong>C</strong> — Brass #a8893a · Light grey #f4f4f4 · Near-black #0d0d0d',
+            '<strong>Custom</strong> — Use the colour pickers below',
+        ]),
+        'section' => 'vg_colors',
+        'type'    => 'select',
+        'choices' => $palette_opts,
+        'priority' => 1,
+    ]);
+
+    /* Individual colour pickers — shown only in Custom mode */
+    $custom_colors = [
+        'vg_color_gold'     => ['label' => __('Accent / Gold', 'venicegarden'),         'default' => '#b09a5b'],
+        'vg_color_obsidian' => ['label' => __('Dark Background / Obsidian', 'venicegarden'), 'default' => '#111111'],
+        'vg_color_cream'    => ['label' => __('Light Background / Cream', 'venicegarden'),   'default' => '#f7f7f7'],
     ];
 
-    foreach ($colors as $key => $opts) {
+    $priority = 10;
+    foreach ($custom_colors as $key => $opts) {
         $wp_customize->add_setting($key, [
             'default'           => $opts['default'],
             'sanitize_callback' => 'sanitize_hex_color',
             'transport'         => 'postMessage',
         ]);
         $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, $key, [
-            'label'   => $opts['label'],
-            'section' => 'vg_colors',
+            'label'           => $opts['label'],
+            'section'         => 'vg_colors',
+            'priority'        => $priority++,
+            'active_callback' => function (): bool {
+                return get_theme_mod('vg_color_palette', 'a') === 'custom';
+            },
         ]));
     }
 
@@ -48,10 +121,10 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize): 
     ]);
 
     $contact_fields = [
-        'vg_email_general'      => ['label' => __('General Email', 'venicegarden'),       'default' => 'info@venicegardensdistribution.com'],
-        'vg_email_partnerships' => ['label' => __('Partnerships Email', 'venicegarden'),   'default' => 'partnerships@venicegardensdistribution.com'],
-        'vg_hq_city'            => ['label' => __('HQ City', 'venicegarden'),              'default' => 'Lagos, Nigeria'],
-        'vg_offices_text'       => ['label' => __('Regional Offices Text', 'venicegarden'), 'default' => 'Accra, Ghana · Kigali, Rwanda'],
+        'vg_email_general'      => ['label' => __('General Email', 'venicegarden'),        'default' => 'info@venicegardensdistribution.com'],
+        'vg_email_partnerships' => ['label' => __('Partnerships Email', 'venicegarden'),    'default' => 'partnerships@venicegardensdistribution.com'],
+        'vg_hq_city'            => ['label' => __('HQ City', 'venicegarden'),               'default' => 'Lagos, Nigeria'],
+        'vg_offices_text'       => ['label' => __('Regional Offices Text', 'venicegarden'),  'default' => 'Accra, Ghana · Kigali, Rwanda'],
     ];
 
     foreach ($contact_fields as $key => $opts) {
@@ -94,28 +167,30 @@ add_action('customize_register', function (WP_Customize_Manager $wp_customize): 
     ]);
 });
 
-/**
- * Output dynamic CSS custom properties for color overrides.
- * This lets Customizer color changes take effect globally.
- */
+/* ── Output CSS custom properties ────────────────────────────── */
 add_action('wp_head', function (): void {
-    $gold     = get_theme_mod('vg_color_gold', '#C9972A');
-    $obsidian = get_theme_mod('vg_color_obsidian', '#0D0D0D');
-    $cream    = get_theme_mod('vg_color_cream', '#F7F3EC');
-
-    if ($gold === '#C9972A' && $obsidian === '#0D0D0D' && $cream === '#F7F3EC') {
-        return;
-    }
-
-    echo '<style id="vg-customizer-colors">:root{';
-    if ($gold !== '#C9972A') {
-        echo '--gold:' . esc_attr($gold) . ';';
-    }
-    if ($obsidian !== '#0D0D0D') {
-        echo '--obsidian:' . esc_attr($obsidian) . ';';
-    }
-    if ($cream !== '#F7F3EC') {
-        echo '--cream:' . esc_attr($cream) . ';';
-    }
-    echo '}</style>';
+    $colors = vg_get_active_palette_colors();
+    echo '<style id="vg-customizer-colors">:root{'
+        . '--gold:'     . esc_attr($colors['gold'])     . ';'
+        . '--obsidian:' . esc_attr($colors['obsidian']) . ';'
+        . '--cream:'    . esc_attr($colors['cream'])    . ';'
+        . '}</style>' . "\n";
 }, 20);
+
+/* ── Enqueue live-preview JS in Customizer iframe ────────────── */
+add_action('customize_preview_init', function (): void {
+    wp_enqueue_script(
+        'vg-customizer-preview',
+        VG_THEME_URI . '/assets/js/customizer-preview.js',
+        ['jquery', 'customize-preview'],
+        VG_THEME_VERSION,
+        true
+    );
+
+    /* Pass palette data to JS */
+    wp_localize_script('vg-customizer-preview', '_vgPalettes', array_filter(
+        vg_get_color_palettes(),
+        fn($k) => $k !== 'custom',
+        ARRAY_FILTER_USE_KEY
+    ));
+});
