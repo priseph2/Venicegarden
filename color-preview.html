@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Venice Gardens — Colour Palette Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Raleway', sans-serif; background: #e8e8e8; }
+
+  .page-label {
+    text-align: center;
+    padding: 2.5rem 1rem 1rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: #555;
+  }
+  .page-label span {
+    display: inline-block;
+    background: #333;
+    color: #fff;
+    padding: .3rem 1rem;
+    border-radius: 20px;
+    margin-bottom: .5rem;
+  }
+  .page-label p { color: #888; font-weight: 400; font-size: .65rem; letter-spacing: .1em; margin-top: .25rem; }
+
+  /* ─── THEME WRAPPER ─── */
+  .theme { max-width: 900px; margin: 0 auto 4rem; box-shadow: 0 8px 60px rgba(0,0,0,.18); }
+
+  /* ─── NAV ─── */
+  .t-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 2.5rem;
+  }
+  .t-logo-name { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; display: block; line-height: 1; }
+  .t-logo-sub  { font-size: .55rem; letter-spacing: .28em; text-transform: uppercase; display: block; margin-top: 2px; opacity: .6; }
+  .t-nav-links { display: flex; gap: 2rem; }
+  .t-nav-links a { font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; }
+  .t-btn { padding: .55rem 1.4rem; font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; }
+
+  /* ─── HERO ─── */
+  .t-hero { padding: 5rem 2.5rem 4rem; position: relative; overflow: hidden; }
+  .t-hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.2) 100%); }
+  .t-hero-img { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1541643600914-78b084683702?w=900&q=60') center/cover; }
+  .t-hero-content { position: relative; z-index: 2; max-width: 540px; }
+  .t-eyebrow { font-size: .65rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; display: block; margin-bottom: .6rem; }
+  .t-rule { width: 40px; height: 2px; margin: .7rem 0 1.1rem; }
+  .t-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 3.2rem; font-weight: 600; line-height: 1.1; color: #fff; margin-bottom: 1rem; }
+  .t-hero h1 em { font-style: italic; }
+  .t-hero p { font-size: .88rem; line-height: 1.8; color: rgba(255,255,255,.8); max-width: 420px; margin-bottom: 2rem; }
+  .t-hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  /* ─── STATS ─── */
+  .t-stats { display: flex; }
+  .t-stat { flex: 1; padding: 1.4rem 1.5rem; text-align: center; border-right: 1px solid; }
+  .t-stat:last-child { border-right: none; }
+  .t-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; line-height: 1; display: block; }
+  .t-stat-lbl { font-size: .6rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; display: block; margin-top: .3rem; opacity: .65; }
+
+  /* ─── SECTION ─── */
+  .t-section { padding: 3.5rem 2.5rem; }
+  .t-section-header { margin-bottom: 2rem; }
+  .t-section h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; line-height: 1.2; margin-top: .5rem; }
+  .t-section p.lead { font-size: .85rem; line-height: 1.8; margin-top: .75rem; max-width: 520px; opacity: .7; }
+
+  /* ─── CARDS ─── */
+  .t-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 1.5rem; }
+  .t-card { padding: 1.5rem; }
+  .t-card-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; display: block; margin-bottom: .5rem; }
+  .t-card h4 { font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .5rem; }
+  .t-card p { font-size: .78rem; line-height: 1.7; opacity: .7; }
+
+  /* ─── FOOTER ─── */
+  .t-footer { padding: 2.5rem 2.5rem 1.5rem; }
+  .t-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid; }
+  .t-footer h5 { font-size: .62rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; margin-bottom: .75rem; }
+  .t-footer ul { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+  .t-footer ul a { font-size: .78rem; text-decoration: none; opacity: .6; }
+  .t-footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; font-size: .7rem; opacity: .4; }
+
+  /* ─── DIVIDER ─── */
+  .palette-strip { display: flex; height: 6px; }
+  .palette-strip span { flex: 1; }
+
+  /* ══════════════════════════════════
+     OPTION A — Platinum & Champagne
+  ══════════════════════════════════ */
+  .a { --bg: #ffffff; --bg2: #f7f7f7; --dark: #111111; --gold: #b09a5b; --gold-o: rgba(176,154,91,.15); --border: rgba(176,154,91,.2); --stat-border: rgba(176,154,91,.18); }
+
+  .a .t-nav           { background: var(--dark); }
+  .a .t-logo-name     { color: var(--gold); }
+  .a .t-logo-sub      { color: var(--gold); }
+  .a .t-nav-links a   { color: rgba(255,255,255,.75); }
+  .a .t-nav-links a:hover { color: var(--gold); }
+  .a .t-btn-gold      { background: var(--gold); color: var(--dark); }
+  .a .t-btn-ghost     { border: 1px solid rgba(255,255,255,.5); color: #fff; background: transparent; }
+
+  .a .t-eyebrow       { color: var(--gold); }
+  .a .t-rule          { background: var(--gold); }
+
+  .a .t-stats         { background: var(--dark); }
+  .a .t-stat          { border-color: var(--stat-border); }
+  .a .t-stat-num      { color: var(--gold); }
+  .a .t-stat-lbl      { color: rgba(255,255,255,.6); }
+
+  .a .t-section       { background: var(--bg); }
+  .a .t-section h2    { color: var(--dark); }
+  .a .t-section p     { color: var(--dark); }
+  .a .t-section .t-eyebrow { color: var(--gold); }
+  .a .t-section .t-rule   { background: var(--gold); }
+
+  .a .t-card          { background: var(--bg2); border-top: 3px solid var(--gold); }
+  .a .t-card-num      { color: var(--gold); }
+  .a .t-card h4       { color: var(--dark); }
+  .a .t-card p        { color: var(--dark); }
+
+  .a .t-footer        { background: var(--dark); }
+  .a .t-footer-grid   { border-color: rgba(255,255,255,.08); }
+  .a .t-footer h5     { color: var(--gold); }
+  .a .t-footer ul a   { color: rgba(255,255,255,.6); }
+  .a .t-footer-bottom { color: #fff; }
+  .a .t-footer .t-logo-name { color: var(--gold); font-size: .9rem; }
+  .a .t-footer .t-logo-sub  { color: var(--gold); }
+  .a .t-footer p.about { font-size: .78rem; color: rgba(255,255,255,.45); line-height: 1.8; margin-top: .75rem; }
+
+  .a.palette-strip .c1 { background: #ffffff; border: 1px solid #ddd; }
+  .a.palette-strip .c2 { background: #f7f7f7; border: 1px solid #ddd; }
+  .a.palette-strip .c3 { background: #111111; }
+  .a.palette-strip .c4 { background: #b09a5b; }
+
+  /* ══════════════════════════════════
+     OPTION B — Classic Black & Gold
+  ══════════════════════════════════ */
+  .b { --bg: #ffffff; --bg2: #fafaf8; --dark: #1a1a1a; --gold: #c4a747; --gold-o: rgba(196,167,71,.15); --border: rgba(196,167,71,.2); }
+
+  .b .t-nav           { background: var(--dark); }
+  .b .t-logo-name     { color: var(--gold); }
+  .b .t-logo-sub      { color: var(--gold); }
+  .b .t-nav-links a   { color: rgba(255,255,255,.75); }
+  .b .t-btn-gold      { background: var(--gold); color: #fff; }
+  .b .t-btn-ghost     { border: 1px solid rgba(255,255,255,.5); color: #fff; background: transparent; }
+
+  .b .t-eyebrow       { color: var(--gold); }
+  .b .t-rule          { background: var(--gold); }
+
+  .b .t-stats         { background: var(--dark); }
+  .b .t-stat          { border-color: rgba(196,167,71,.18); }
+  .b .t-stat-num      { color: var(--gold); }
+  .b .t-stat-lbl      { color: rgba(255,255,255,.6); }
+
+  .b .t-section       { background: var(--bg); }
+  .b .t-section h2    { color: var(--dark); }
+  .b .t-section p     { color: var(--dark); }
+  .b .t-section .t-eyebrow { color: var(--gold); }
+  .b .t-section .t-rule   { background: var(--gold); }
+
+  .b .t-card          { background: var(--bg2); border-top: 3px solid var(--gold); }
+  .b .t-card-num      { color: var(--gold); }
+  .b .t-card h4       { color: var(--dark); }
+
+  .b .t-footer        { background: var(--dark); }
+  .b .t-footer-grid   { border-color: rgba(255,255,255,.08); }
+  .b .t-footer h5     { color: var(--gold); }
+  .b .t-footer ul a   { color: rgba(255,255,255,.6); }
+  .b .t-footer-bottom { color: #fff; }
+  .b .t-footer .t-logo-name { color: var(--gold); font-size: .9rem; }
+  .b .t-footer .t-logo-sub  { color: var(--gold); }
+  .b .t-footer p.about { font-size: .78rem; color: rgba(255,255,255,.45); line-height: 1.8; margin-top: .75rem; }
+
+  .b.palette-strip .c1 { background: #ffffff; border: 1px solid #ddd; }
+  .b.palette-strip .c2 { background: #fafaf8; border: 1px solid #ddd; }
+  .b.palette-strip .c3 { background: #1a1a1a; }
+  .b.palette-strip .c4 { background: #c4a747; }
+
+  /* ══════════════════════════════════
+     OPTION C — Monochrome & Brass
+  ══════════════════════════════════ */
+  .c { --bg: #ffffff; --bg2: #f4f4f4; --dark: #0d0d0d; --gold: #a8893a; --gold-o: rgba(168,137,58,.12); --border: rgba(168,137,58,.2); }
+
+  .c .t-nav           { background: var(--bg); border-bottom: 1px solid #e8e8e8; }
+  .c .t-logo-name     { color: var(--dark); }
+  .c .t-logo-sub      { color: var(--gold); }
+  .c .t-nav-links a   { color: rgba(13,13,13,.65); }
+  .c .t-btn-gold      { background: var(--dark); color: #fff; }
+  .c .t-btn-ghost     { border: 1px solid var(--dark); color: var(--dark); background: transparent; }
+
+  .c .t-eyebrow       { color: var(--gold); }
+  .c .t-rule          { background: var(--gold); }
+
+  .c .t-stats         { background: var(--bg2); }
+  .c .t-stat          { border-color: #e0e0e0; }
+  .c .t-stat-num      { color: var(--dark); }
+  .c .t-stat-lbl      { color: rgba(13,13,13,.55); }
+
+  .c .t-section       { background: var(--bg); }
+  .c .t-section h2    { color: var(--dark); }
+  .c .t-section p     { color: var(--dark); }
+  .c .t-section .t-eyebrow { color: var(--gold); }
+  .c .t-section .t-rule   { background: var(--gold); }
+
+  .c .t-card          { background: var(--bg2); border-left: 3px solid var(--gold); }
+  .c .t-card-num      { color: var(--gold); }
+  .c .t-card h4       { color: var(--dark); }
+
+  .c .t-footer        { background: var(--dark); }
+  .c .t-footer-grid   { border-color: rgba(255,255,255,.08); }
+  .c .t-footer h5     { color: var(--gold); }
+  .c .t-footer ul a   { color: rgba(255,255,255,.6); }
+  .c .t-footer-bottom { color: #fff; }
+  .c .t-footer .t-logo-name { color: #fff; font-size: .9rem; }
+  .c .t-footer .t-logo-sub  { color: var(--gold); }
+  .c .t-footer p.about { font-size: .78rem; color: rgba(255,255,255,.45); line-height: 1.8; margin-top: .75rem; }
+
+  .c.palette-strip .c1 { background: #ffffff; border: 1px solid #ddd; }
+  .c.palette-strip .c2 { background: #f4f4f4; border: 1px solid #ddd; }
+  .c.palette-strip .c3 { background: #0d0d0d; }
+  .c.palette-strip .c4 { background: #a8893a; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     OPTION A — Platinum & Champagne
+════════════════════════════════════════════ -->
+<div class="page-label">
+  <span>Option A</span>
+  <p>Platinum &amp; Champagne — White bg · Champagne gold #b09a5b · Rich black #111111</p>
+</div>
+<div class="palette-strip a">
+  <span class="c1"></span><span class="c2"></span><span class="c3"></span><span class="c4"></span>
+</div>
+<div class="theme a">
+  <!-- Nav -->
+  <nav class="t-nav">
+    <div class="t-logo">
+      <span class="t-logo-name">VENICE GARDENS</span>
+      <span class="t-logo-sub">Distribution</span>
+    </div>
+    <div class="t-nav-links">
+      <a href="#">Home</a><a href="#">About</a><a href="#">Brands</a><a href="#">Partners</a><a href="#">Contact</a>
+    </div>
+    <a href="#" class="t-btn t-btn-gold">Get in Touch</a>
+  </nav>
+  <!-- Hero -->
+  <div class="t-hero">
+    <div class="t-hero-img"></div>
+    <div class="t-hero-bg"></div>
+    <div class="t-hero-content">
+      <span class="t-eyebrow">Africa's Premier Distributor</span>
+      <div class="t-rule"></div>
+      <h1>Luxury Brands,<br><em>African Markets</em></h1>
+      <p>Connecting the world's finest fragrance and beauty brands with Africa's most discerning consumers.</p>
+      <div class="t-hero-btns">
+        <a href="#" class="t-btn t-btn-gold">Explore Our Brands</a>
+        <a href="#" class="t-btn t-btn-ghost">Partner With Us</a>
+      </div>
+    </div>
+  </div>
+  <!-- Stats -->
+  <div class="t-stats">
+    <div class="t-stat"><span class="t-stat-num">40+</span><span class="t-stat-lbl">Partner Branches</span></div>
+    <div class="t-stat"><span class="t-stat-num">3</span><span class="t-stat-lbl">African Markets</span></div>
+    <div class="t-stat"><span class="t-stat-num">7</span><span class="t-stat-lbl">Retail Partners</span></div>
+    <div class="t-stat"><span class="t-stat-num">2024</span><span class="t-stat-lbl">Most Innovative</span></div>
+  </div>
+  <!-- Section -->
+  <div class="t-section">
+    <div class="t-section-header">
+      <span class="t-eyebrow">What Sets Us Apart</span>
+      <div class="t-rule"></div>
+      <h2>Our Unique Service Offering</h2>
+      <p class="lead">An unrivalled network of premium retail touchpoints across Nigeria, Ghana, and Rwanda.</p>
+    </div>
+    <div class="t-cards">
+      <div class="t-card"><span class="t-card-num">01</span><h4>Integrity First</h4><p>Character and integrity are the backbone of all our interactions with partners and clients.</p></div>
+      <div class="t-card"><span class="t-card-num">02</span><h4>UHNWI Network</h4><p>Exclusive access to Ultra High Net Worth Individuals and corporate titans across Africa.</p></div>
+      <div class="t-card"><span class="t-card-num">03</span><h4>Full Transparency</h4><p>Partner brands receive complete transparency in business reports and market analytics.</p></div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <div class="t-footer">
+    <div class="t-footer-grid">
+      <div>
+        <span class="t-logo-name">VENICE GARDENS</span>
+        <span class="t-logo-sub">Distribution</span>
+        <p class="about">Africa's premier luxury beauty distribution network — connecting the world's finest brands with Africa's most discerning consumers.</p>
+      </div>
+      <div>
+        <h5>Quick Links</h5>
+        <ul><li><a href="#">About Us</a></li><li><a href="#">Our Brands</a></li><li><a href="#">Partner Stores</a></li><li><a href="#">Contact</a></li></ul>
+      </div>
+      <div>
+        <h5>Our Markets</h5>
+        <ul><li><a href="#">🇳🇬 Nigeria</a></li><li><a href="#">🇬🇭 Ghana</a></li><li><a href="#">🇷🇼 Rwanda</a></li></ul>
+      </div>
+    </div>
+    <div class="t-footer-bottom"><span>© 2024 Venice Gardens Distribution</span><span>Privacy Policy · Terms of Use</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     OPTION B — Classic Black & Gold
+════════════════════════════════════════════ -->
+<div class="page-label">
+  <span>Option B</span>
+  <p>Classic Black &amp; Gold — White bg · Antique gold #c4a747 · Deep charcoal #1a1a1a</p>
+</div>
+<div class="palette-strip b">
+  <span class="c1"></span><span class="c2"></span><span class="c3"></span><span class="c4"></span>
+</div>
+<div class="theme b">
+  <nav class="t-nav">
+    <div class="t-logo">
+      <span class="t-logo-name">VENICE GARDENS</span>
+      <span class="t-logo-sub">Distribution</span>
+    </div>
+    <div class="t-nav-links">
+      <a href="#">Home</a><a href="#">About</a><a href="#">Brands</a><a href="#">Partners</a><a href="#">Contact</a>
+    </div>
+    <a href="#" class="t-btn t-btn-gold">Get in Touch</a>
+  </nav>
+  <div class="t-hero">
+    <div class="t-hero-img"></div>
+    <div class="t-hero-bg"></div>
+    <div class="t-hero-content">
+      <span class="t-eyebrow">Africa's Premier Distributor</span>
+      <div class="t-rule"></div>
+      <h1>Luxury Brands,<br><em>African Markets</em></h1>
+      <p>Connecting the world's finest fragrance and beauty brands with Africa's most discerning consumers.</p>
+      <div class="t-hero-btns">
+        <a href="#" class="t-btn t-btn-gold">Explore Our Brands</a>
+        <a href="#" class="t-btn t-btn-ghost">Partner With Us</a>
+      </div>
+    </div>
+  </div>
+  <div class="t-stats">
+    <div class="t-stat"><span class="t-stat-num">40+</span><span class="t-stat-lbl">Partner Branches</span></div>
+    <div class="t-stat"><span class="t-stat-num">3</span><span class="t-stat-lbl">African Markets</span></div>
+    <div class="t-stat"><span class="t-stat-num">7</span><span class="t-stat-lbl">Retail Partners</span></div>
+    <div class="t-stat"><span class="t-stat-num">2024</span><span class="t-stat-lbl">Most Innovative</span></div>
+  </div>
+  <div class="t-section">
+    <div class="t-section-header">
+      <span class="t-eyebrow">What Sets Us Apart</span>
+      <div class="t-rule"></div>
+      <h2>Our Unique Service Offering</h2>
+      <p class="lead">An unrivalled network of premium retail touchpoints across Nigeria, Ghana, and Rwanda.</p>
+    </div>
+    <div class="t-cards">
+      <div class="t-card"><span class="t-card-num">01</span><h4>Integrity First</h4><p>Character and integrity are the backbone of all our interactions with partners and clients.</p></div>
+      <div class="t-card"><span class="t-card-num">02</span><h4>UHNWI Network</h4><p>Exclusive access to Ultra High Net Worth Individuals and corporate titans across Africa.</p></div>
+      <div class="t-card"><span class="t-card-num">03</span><h4>Full Transparency</h4><p>Partner brands receive complete transparency in business reports and market analytics.</p></div>
+    </div>
+  </div>
+  <div class="t-footer">
+    <div class="t-footer-grid">
+      <div>
+        <span class="t-logo-name">VENICE GARDENS</span>
+        <span class="t-logo-sub">Distribution</span>
+        <p class="about">Africa's premier luxury beauty distribution network — connecting the world's finest brands with Africa's most discerning consumers.</p>
+      </div>
+      <div>
+        <h5>Quick Links</h5>
+        <ul><li><a href="#">About Us</a></li><li><a href="#">Our Brands</a></li><li><a href="#">Partner Stores</a></li><li><a href="#">Contact</a></li></ul>
+      </div>
+      <div>
+        <h5>Our Markets</h5>
+        <ul><li><a href="#">🇳🇬 Nigeria</a></li><li><a href="#">🇬🇭 Ghana</a></li><li><a href="#">🇷🇼 Rwanda</a></li></ul>
+      </div>
+    </div>
+    <div class="t-footer-bottom"><span>© 2024 Venice Gardens Distribution</span><span>Privacy Policy · Terms of Use</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     OPTION C — Monochrome & Brass
+════════════════════════════════════════════ -->
+<div class="page-label">
+  <span>Option C</span>
+  <p>Monochrome &amp; Brass — White bg · Brass #a8893a · Near-black #0d0d0d · Light-grey sections</p>
+</div>
+<div class="palette-strip c">
+  <span class="c1"></span><span class="c2"></span><span class="c3"></span><span class="c4"></span>
+</div>
+<div class="theme c">
+  <nav class="t-nav">
+    <div class="t-logo">
+      <span class="t-logo-name">VENICE GARDENS</span>
+      <span class="t-logo-sub">Distribution</span>
+    </div>
+    <div class="t-nav-links">
+      <a href="#">Home</a><a href="#">About</a><a href="#">Brands</a><a href="#">Partners</a><a href="#">Contact</a>
+    </div>
+    <a href="#" class="t-btn t-btn-gold">Get in Touch</a>
+  </nav>
+  <div class="t-hero">
+    <div class="t-hero-img"></div>
+    <div class="t-hero-bg"></div>
+    <div class="t-hero-content">
+      <span class="t-eyebrow">Africa's Premier Distributor</span>
+      <div class="t-rule"></div>
+      <h1>Luxury Brands,<br><em>African Markets</em></h1>
+      <p>Connecting the world's finest fragrance and beauty brands with Africa's most discerning consumers.</p>
+      <div class="t-hero-btns">
+        <a href="#" class="t-btn t-btn-gold">Explore Our Brands</a>
+        <a href="#" class="t-btn t-btn-ghost">Partner With Us</a>
+      </div>
+    </div>
+  </div>
+  <div class="t-stats">
+    <div class="t-stat"><span class="t-stat-num">40+</span><span class="t-stat-lbl">Partner Branches</span></div>
+    <div class="t-stat"><span class="t-stat-num">3</span><span class="t-stat-lbl">African Markets</span></div>
+    <div class="t-stat"><span class="t-stat-num">7</span><span class="t-stat-lbl">Retail Partners</span></div>
+    <div class="t-stat"><span class="t-stat-num">2024</span><span class="t-stat-lbl">Most Innovative</span></div>
+  </div>
+  <div class="t-section">
+    <div class="t-section-header">
+      <span class="t-eyebrow">What Sets Us Apart</span>
+      <div class="t-rule"></div>
+      <h2>Our Unique Service Offering</h2>
+      <p class="lead">An unrivalled network of premium retail touchpoints across Nigeria, Ghana, and Rwanda.</p>
+    </div>
+    <div class="t-cards">
+      <div class="t-card"><span class="t-card-num">01</span><h4>Integrity First</h4><p>Character and integrity are the backbone of all our interactions with partners and clients.</p></div>
+      <div class="t-card"><span class="t-card-num">02</span><h4>UHNWI Network</h4><p>Exclusive access to Ultra High Net Worth Individuals and corporate titans across Africa.</p></div>
+      <div class="t-card"><span class="t-card-num">03</span><h4>Full Transparency</h4><p>Partner brands receive complete transparency in business reports and market analytics.</p></div>
+    </div>
+  </div>
+  <div class="t-footer">
+    <div class="t-footer-grid">
+      <div>
+        <span class="t-logo-name">VENICE GARDENS</span>
+        <span class="t-logo-sub">Distribution</span>
+        <p class="about">Africa's premier luxury beauty distribution network — connecting the world's finest brands with Africa's most discerning consumers.</p>
+      </div>
+      <div>
+        <h5>Quick Links</h5>
+        <ul><li><a href="#">About Us</a></li><li><a href="#">Our Brands</a></li><li><a href="#">Partner Stores</a></li><li><a href="#">Contact</a></li></ul>
+      </div>
+      <div>
+        <h5>Our Markets</h5>
+        <ul><li><a href="#">🇳🇬 Nigeria</a></li><li><a href="#">🇬🇭 Ghana</a></li><li><a href="#">🇷🇼 Rwanda</a></li></ul>
+      </div>
+    </div>
+    <div class="t-footer-bottom"><span>© 2024 Venice Gardens Distribution</span><span>Privacy Policy · Terms of Use</span></div>
+  </div>
+</div>
+
+</body>
+</html>
