@@ -1,0 +1,699 @@
+<title>Maple Leaf Eco Clean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800;900&family=Nunito:wght@400;500;600;700&display=swap">
+
+<style>
+/* ── Tokens ─────────────────────────────────────────────────── */
+:root {
+  --forest:       #163d22;
+  --grove:        #2b6641;
+  --leaf:         #4a9e5c;
+  --leaf-light:   #6abf7a;
+  --mist:         #eef4ec;
+  --ivory:        #f9fdf8;
+  --bark:         #1e2d22;
+  --bark-mid:     #3a5240;
+  --bark-light:   #5a7460;
+  --border:       #cde0cc;
+  --white:        #ffffff;
+
+  --bg:           var(--ivory);
+  --surface:      var(--white);
+  --surface-alt:  var(--mist);
+  --text:         var(--bark);
+  --text-muted:   var(--bark-light);
+  --acc:          var(--leaf);
+  --acc-hover:    var(--grove);
+  --nav-h:        68px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:          #0c1a0f;
+    --surface:     #132018;
+    --surface-alt: #182c1d;
+    --text:        #e4f0e7;
+    --text-muted:  #8aad94;
+    --border:      #2a4433;
+    --acc:         #62c478;
+    --acc-hover:   #4aad62;
+    --forest:      #0a1a0e;
+    --bark:        #e4f0e7;
+    --bark-light:  #8aad94;
+    --bark-mid:    #b2ccb8;
+    --mist:        #182c1d;
+    --ivory:       #0c1a0f;
+    --white:       #132018;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:          #0c1a0f;
+  --surface:     #132018;
+  --surface-alt: #182c1d;
+  --text:        #e4f0e7;
+  --text-muted:  #8aad94;
+  --border:      #2a4433;
+  --acc:         #62c478;
+  --acc-hover:   #4aad62;
+  --forest:      #0a1a0e;
+  --bark:        #e4f0e7;
+  --bark-light:  #8aad94;
+  --bark-mid:    #b2ccb8;
+  --mist:        #182c1d;
+  --ivory:       #0c1a0f;
+  --white:       #132018;
+}
+
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  padding-top: var(--nav-h);
+}
+a { color: var(--acc); text-decoration: none; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+/* ── Nav ─────────────────────────────────────────────────────── */
+.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-h);
+  background: var(--forest);
+  display: flex; align-items: center;
+  padding: 0 clamp(1.5rem, 5vw, 3rem);
+  gap: 2.5rem;
+  box-shadow: 0 2px 20px rgba(0,0,0,.25);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: .75rem;
+  text-decoration: none; flex-shrink: 0;
+}
+.nav-logo-icon {
+  width: 40px; height: 40px;
+}
+.nav-logo-text {
+  display: flex; flex-direction: column; line-height: 1.1;
+}
+.nav-logo-text .ln1 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 800; font-size: .9rem;
+  color: #fff; letter-spacing: .08em; text-transform: uppercase;
+}
+.nav-logo-text .ln2 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700; font-size: .72rem;
+  color: var(--leaf-light); letter-spacing: .14em; text-transform: uppercase;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 0; margin-left: auto;
+}
+.nav-links a {
+  color: rgba(255,255,255,.82);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600; font-size: .85rem;
+  padding: .4rem .75rem;
+  border-radius: 4px;
+  transition: color .15s, background .15s;
+  letter-spacing: .01em;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: #fff; background: rgba(255,255,255,.12);
+}
+.nav-cta {
+  background: var(--leaf) !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+  padding: .45rem 1rem !important;
+  font-weight: 700 !important;
+  transition: background .15s !important;
+  margin-left: .5rem;
+}
+.nav-cta:hover { background: var(--leaf-light) !important; }
+
+/* ── Page visibility ─────────────────────────────────────────── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── Shared section ──────────────────────────────────────────── */
+.section { padding: clamp(3.5rem, 7vw, 6rem) clamp(1.5rem, 8vw, 6rem); }
+.section-narrow { max-width: 780px; margin-inline: auto; }
+.section-wide { max-width: 1180px; margin-inline: auto; }
+.alt-bg { background: var(--surface-alt); }
+.dark-bg { background: var(--forest); color: #fff; }
+.dark-bg .text-muted { color: rgba(255,255,255,.65); }
+
+.eyebrow {
+  font-family: 'Raleway', sans-serif;
+  font-size: .78rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--acc); margin-bottom: .75rem;
+  display: flex; align-items: center; gap: .5rem;
+}
+.eyebrow::before {
+  content: ''; display: inline-block;
+  width: 22px; height: 2px; background: var(--acc);
+}
+h1, h2, h3 { font-family: 'Raleway', sans-serif; text-wrap: balance; color: var(--text); }
+h1 { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 800; line-height: 1.1; letter-spacing: -.02em; }
+h2 { font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; line-height: 1.15; letter-spacing: -.015em; }
+h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: .35rem; }
+p { color: var(--text-muted); max-width: 68ch; }
+.lead { font-size: 1.1rem; color: var(--text-muted); }
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: 'Raleway', sans-serif; font-weight: 700;
+  font-size: .92rem; letter-spacing: .02em;
+  padding: .8rem 1.75rem; border-radius: 6px;
+  cursor: pointer; border: none; transition: all .18s;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--acc); color: #fff;
+}
+.btn-primary:hover { background: var(--acc-hover); transform: translateY(-1px); }
+.btn-outline {
+  background: transparent; color: var(--acc);
+  border: 2px solid var(--acc);
+}
+.btn-outline:hover { background: var(--acc); color: #fff; }
+.btn-white {
+  background: #fff; color: var(--grove);
+}
+.btn-white:hover { background: var(--mist); }
+.btn-white-outline {
+  background: transparent; color: #fff;
+  border: 2px solid rgba(255,255,255,.6);
+}
+.btn-white-outline:hover { background: rgba(255,255,255,.1); }
+
+/* ── Hero ────────────────────────────────────────────────────── */
+.hero {
+  position: relative; overflow: hidden;
+  background: var(--forest);
+  padding: clamp(4rem,10vw,7rem) clamp(1.5rem,8vw,6rem);
+  min-height: 560px; display: flex; align-items: center;
+}
+.hero-content { position: relative; z-index: 2; max-width: 640px; }
+.hero h1 { color: #fff; margin-bottom: 1.25rem; }
+.hero .lead { color: rgba(255,255,255,.78); margin-bottom: 2rem; max-width: 56ch; }
+.hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-leaf {
+  position: absolute; right: -60px; top: 50%; transform: translateY(-50%);
+  width: clamp(280px, 40vw, 520px); opacity: .12;
+  pointer-events: none; z-index: 1;
+}
+.hero-eyebrow { font-family: 'Raleway',sans-serif; font-size:.78rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--leaf-light); margin-bottom:.8rem; display:flex;align-items:center;gap:.5rem; }
+.hero-eyebrow::before{content:'';display:inline-block;width:22px;height:2px;background:var(--leaf-light);}
+
+/* ── Services Grid ───────────────────────────────────────────── */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem; margin-top: 2.5rem;
+}
+.service-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--acc);
+  border-radius: 6px;
+  padding: 1.5rem 1.75rem;
+  cursor: pointer;
+  transition: transform .18s, box-shadow .18s;
+}
+.service-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,.08); }
+.service-card h3 { color: var(--text); }
+.service-card p { font-size: .92rem; margin-top: .35rem; max-width: none; }
+.service-card .card-link {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font-family: 'Raleway',sans-serif; font-weight: 700;
+  font-size: .82rem; color: var(--acc); margin-top: 1rem;
+  letter-spacing: .02em;
+}
+.card-icon {
+  width: 36px; height: 36px; margin-bottom: .75rem;
+  color: var(--acc);
+}
+
+/* ── Why grid ────────────────────────────────────────────────── */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2rem; margin-top: 2.5rem;
+}
+.why-item { }
+.why-item h3 { color: var(--text); font-size: 1.05rem; }
+.why-item p { font-size: .9rem; margin-top: .25rem; max-width: none; }
+.why-icon { width:32px;height:32px; color:var(--acc); margin-bottom:.6rem; }
+
+/* ── Steps ───────────────────────────────────────────────────── */
+.steps { display:flex; flex-direction:column; gap: 2rem; margin-top:2.5rem; max-width:680px; }
+.step { display:flex; gap:1.75rem; align-items:flex-start; }
+.step-num {
+  font-family:'Raleway',sans-serif; font-size:3.5rem; font-weight:900;
+  color:var(--acc); line-height:1; flex-shrink:0; width:56px;
+  opacity:.25;
+}
+.step-body h3 { font-size:1.05rem; color:var(--text); }
+.step-body p { font-size:.9rem; max-width:none; }
+
+/* ── Service area pill strip ─────────────────────────────────── */
+.area-pills { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1.5rem; }
+.pill {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:100px; padding:.4rem 1.1rem;
+  font-family:'Raleway',sans-serif; font-weight:700;
+  font-size:.82rem; color:var(--text);
+  display:flex; align-items:center; gap:.4rem;
+}
+.pill svg { width:14px;height:14px;color:var(--acc); }
+
+/* ── CTA Banner ──────────────────────────────────────────────── */
+.cta-banner {
+  background:var(--forest); color:#fff;
+  padding:clamp(3rem,6vw,4.5rem) clamp(1.5rem,8vw,6rem);
+  text-align:center;
+}
+.cta-banner h2 { color:#fff; margin-bottom:1rem; }
+.cta-banner p { color:rgba(255,255,255,.72); margin:0 auto 2rem; max-width:52ch; }
+.cta-banner-btns { display:flex;gap:1rem;justify-content:center;flex-wrap:wrap; }
+
+/* ── Page hero (inner pages) ─────────────────────────────────── */
+.page-hero {
+  background:var(--forest);
+  padding:clamp(3rem,7vw,5rem) clamp(1.5rem,8vw,6rem) clamp(2.5rem,5vw,4rem);
+  position:relative; overflow:hidden;
+}
+.page-hero h1 { color:#fff; margin-bottom:.75rem; }
+.page-hero .lead { color:rgba(255,255,255,.72); max-width:58ch; }
+.page-hero-leaf { position:absolute;right:-40px;bottom:-30px;width:260px;opacity:.08;pointer-events:none; }
+
+/* ── Checklist ───────────────────────────────────────────────── */
+.check-list { margin-top:1.25rem; display:flex;flex-direction:column;gap:.6rem; }
+.check-list li {
+  display:flex; align-items:flex-start; gap:.75rem;
+  font-size:.95rem; color:var(--text-muted);
+}
+.check-list li::before {
+  content:''; flex-shrink:0; width:18px; height:18px; margin-top:2px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%234a9e5c'%3E%3Cpath fill-rule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+/* ── Two-col layout ──────────────────────────────────────────── */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; }
+@media(max-width:720px){ .two-col{grid-template-columns:1fr; gap:2.5rem;} }
+
+/* ── Contact form ────────────────────────────────────────────── */
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-top:2rem; }
+@media(max-width:640px){ .form-grid{grid-template-columns:1fr;} }
+.form-field { display:flex; flex-direction:column; gap:.4rem; }
+.form-field.full { grid-column:1/-1; }
+.form-field label { font-family:'Raleway',sans-serif; font-weight:700; font-size:.82rem; letter-spacing:.04em; text-transform:uppercase; color:var(--text); }
+.form-field input, .form-field select, .form-field textarea {
+  background:var(--surface); border:1.5px solid var(--border); border-radius:6px;
+  padding:.7rem 1rem; font-family:'Nunito',sans-serif; font-size:.95rem; color:var(--text);
+  transition:border-color .15s;
+}
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+  outline:none; border-color:var(--acc);
+}
+.form-field textarea { resize:vertical; min-height:120px; }
+.form-note { font-size:.85rem; color:var(--text-muted); margin-top:1rem; }
+
+/* ── Footer ──────────────────────────────────────────────────── */
+.site-footer {
+  background:var(--forest); color:rgba(255,255,255,.75);
+  padding:clamp(3rem,6vw,4.5rem) clamp(1.5rem,8vw,6rem) 2rem;
+}
+.footer-inner {
+  max-width:1180px; margin-inline:auto;
+  display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:3rem;
+}
+@media(max-width:860px){ .footer-inner{grid-template-columns:1fr 1fr;gap:2rem;} }
+@media(max-width:520px){ .footer-inner{grid-template-columns:1fr;} }
+.footer-brand .fn { font-family:'Raleway',sans-serif; font-weight:800; font-size:1.05rem; color:#fff; letter-spacing:.06em; }
+.footer-brand .ft { font-family:'Raleway',sans-serif; font-weight:700; font-size:.8rem; color:var(--leaf-light); letter-spacing:.12em; }
+.footer-brand p { font-size:.875rem; margin-top:.85rem; line-height:1.65; }
+.footer-col h4 { font-family:'Raleway',sans-serif; font-weight:700; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase; color:#fff; margin-bottom:.85rem; }
+.footer-col a { display:block; font-size:.875rem; color:rgba(255,255,255,.65); padding:.22rem 0; transition:color .15s; cursor:pointer; }
+.footer-col a:hover { color:#fff; }
+.footer-bottom {
+  max-width:1180px; margin:2.5rem auto 0;
+  border-top:1px solid rgba(255,255,255,.1);
+  padding-top:1.5rem;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;
+  font-size:.82rem;
+}
+.footer-bottom-links { display:flex; gap:1.5rem; }
+.footer-bottom-links a { color:rgba(255,255,255,.5); cursor:pointer; }
+.footer-bottom-links a:hover { color:#fff; }
+
+/* ── Responsive nav ──────────────────────────────────────────── */
+@media(max-width:980px){ .nav-links a:not(.nav-cta){display:none;} }
+
+/* ── About commitment list ───────────────────────────────────── */
+.commit-list { margin-top:1.25rem; display:flex; flex-direction:column; gap:.5rem; }
+.commit-list li { display:flex;align-items:center;gap:.6rem;font-size:.95rem;color:var(--text-muted); }
+.commit-list li::before {
+  content:''; flex-shrink:0; width:7px;height:7px;
+  background:var(--acc); border-radius:50%;
+}
+
+/* ── Intro section ───────────────────────────────────────────── */
+.intro-split { display:grid; grid-template-columns:1.2fr 1fr; gap:4rem; align-items:center; }
+@media(max-width:760px){ .intro-split{grid-template-columns:1fr;} }
+.intro-graphic {
+  display:flex; align-items:center; justify-content:center;
+  padding:2rem;
+}
+.area-card {
+  background:var(--surface-alt); border:1px solid var(--border);
+  border-radius:12px; padding:2rem;
+}
+.area-card h3 { font-size:1rem; color:var(--text); margin-bottom:.75rem; }
+</style>
+
+<nav class="site-nav">
+  <a class="nav-logo" href="#" onclick="showPage('home')">
+    <svg class="nav-logo-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40" cy="40" r="38" stroke="#4a9e5c" stroke-width="2.5"/>
+      <path d="M40 12 L47 24 L58 20 L52 31 L64 34 L55 41 L60 54 L48 49 L46 62 L40 56 L34 62 L32 49 L20 54 L25 41 L16 34 L28 31 L22 20 L33 24 Z" fill="url(#lg1)"/>
+      <path d="M34 44 L34 56 L46 56 L46 44 L40 38 Z" fill="#163d22"/>
+      <rect x="37" y="49" width="6" height="7" rx="1" fill="#4a9e5c"/>
+      <path d="M22 61 Q31 57 40 61 Q49 65 58 61" stroke="#4a9e5c" stroke-width="2" fill="none"/>
+      <defs>
+        <linearGradient id="lg1" x1="40" y1="12" x2="40" y2="62" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#7bc32b"/>
+          <stop offset="100%" stop-color="#163d22"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <span class="nav-logo-text">
+      <span class="ln1">Maple Leaf</span>
+      <span class="ln2">Eco Clean</span>
+    </span>
+  </a>
+  <div class="nav-links">
+    <a href="#" onclick="showPage('home')" class="active" id="nav-home">Home</a>
+    <a href="#" onclick="showPage('residential')" id="nav-residential">Residential</a>
+    <a href="#" onclick="showPage('commercial')" id="nav-commercial">Commercial</a>
+    <a href="#" onclick="showPage('services')" id="nav-services">Services</a>
+    <a href="#" onclick="showPage('about')" id="nav-about">About</a>
+    <a href="#" onclick="showPage('contact')" id="nav-contact">Contact</a>
+    <a href="#" onclick="showPage('contact')" class="nav-cta">Get a Free Quote</a>
+  </div>
+</nav>
+
+<div id="page-home" class="page active">
+  <section class="hero">
+    <svg class="hero-leaf" viewBox="0 0 300 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M150 10 L175 60 L230 40 L205 90 L260 105 L215 140 L240 200 L185 175 L178 240 L150 215 L122 240 L115 175 L60 200 L85 140 L40 105 L95 90 L70 40 L125 60 Z" fill="white"/>
+      <path d="M130 160 L130 220 L170 220 L170 160 L150 138 Z" fill="white"/>
+      <path d="M80 228 Q115 215 150 228 Q185 241 220 228" stroke="white" stroke-width="6" fill="none"/>
+    </svg>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Professional Local Cleaning Services</div>
+      <h1>Professional Cleaning Services You Can Trust</h1>
+      <p class="lead">Reliable residential, commercial, move-in/move-out, post-construction, and deep cleaning across Moncton, Dieppe, Riverview, and surrounding communities.</p>
+      <div class="hero-buttons">
+        <a href="#" onclick="showPage('contact')" class="btn btn-primary">Get a Free Quote</a>
+        <a href="tel:+1" class="btn btn-white-outline">Call Now</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-wide intro-split">
+      <div>
+        <div class="eyebrow">A Cleaner Space, Without the Stress</div>
+        <h2 style="margin-bottom:1.25rem;">Detail-Focused Cleaning, Built Around Your Schedule</h2>
+        <p class="lead" style="margin-bottom:1rem;">At Maple Leaf Eco Clean, we make it easier to keep your home, workplace, rental, or newly completed property clean and ready to enjoy.</p>
+        <p>Our team provides dependable, detail-focused cleaning tailored to your space, schedule, and priorities. Whether you need recurring service or a one-time clean, our goal is simple: consistent quality and a space that feels fresh when the job is done.</p>
+        <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+          <a href="#" onclick="showPage('contact')" class="btn btn-primary">Get a Free Quote</a>
+          <a href="#" onclick="showPage('services')" class="btn btn-outline">View All Services</a>
+        </div>
+      </div>
+      <div class="intro-graphic">
+        <div class="area-card">
+          <h3>Serving Greater Moncton</h3>
+          <div class="area-pills">
+            <div class="pill"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>Moncton</div>
+            <div class="pill"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>Dieppe</div>
+            <div class="pill"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>Riverview</div>
+            <div class="pill"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>Sackville</div>
+            <div class="pill"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>Surrounding Areas</div>
+          </div>
+          <p style="font-size:.85rem;margin-top:1.25rem;">Proudly serving New Brunswick communities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt-bg">
+    <div class="section-wide">
+      <div class="eyebrow">What We Offer</div>
+      <h2>Our Services</h2>
+      <div class="services-grid">
+        <div class="service-card" onclick="showPage('residential')">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+          <h3>Residential Cleaning</h3>
+          <p>Regular cleaning designed to keep homes fresh, comfortable, and easier to maintain.</p>
+          <span class="card-link">Learn more &rarr;</span>
+        </div>
+        <div class="service-card" onclick="showPage('commercial')">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><path d="M12 12v4m-4 0h8"/></svg>
+          <h3>Commercial &amp; Office Cleaning</h3>
+          <p>Dependable cleaning for offices, workplaces, and commercial spaces.</p>
+          <span class="card-link">Learn more &rarr;</span>
+        </div>
+        <div class="service-card" onclick="showPage('deep')">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 6v6l4 2"/></svg>
+          <h3>Deep Cleaning</h3>
+          <p>A more detailed top-to-bottom clean for spaces that need extra attention.</p>
+          <span class="card-link">Learn more &rarr;</span>
+        </div>
+        <div class="service-card" onclick="showPage('moveinout')">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><path d="M10 12h4"/></svg>
+          <h3>Move-In / Move-Out Cleaning</h3>
+          <p>Thorough cleaning for tenants, homeowners, landlords, and property managers.</p>
+          <span class="card-link">Learn more &rarr;</span>
+        </div>
+        <div class="service-card" onclick="showPage('construction')">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 20h20M4 20V10l8-6 8 6v10"/><rect x="9" y="14" width="6" height="6"/></svg>
+          <h3>Post-Construction Cleaning</h3>
+          <p>Detailed cleanup after construction, renovation, or remodeling work.</p>
+          <span class="card-link">Learn more &rarr;</span>
+        </div>
+        <div class="service-card" onclick="showPage('airbnb')">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <h3>Airbnb &amp; Short-Term Rental</h3>
+          <p>Reliable turnover cleaning to help prepare rental properties for incoming guests.</p>
+          <span class="card-link">Learn more &rarr;</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-wide">
+      <div class="eyebrow">Why Choose Us</div>
+      <h2 style="margin-bottom:.5rem;">What Sets Maple Leaf Eco Clean Apart</h2>
+      <p style="margin-bottom:0;">Dependable service, real attention to detail, and cleaning options that fit your needs.</p>
+      <div class="why-grid">
+        <div class="why-item"><svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><h3>Reliable Service</h3><p>We respect your time and work to deliver dependable service, every visit.</p></div>
+        <div class="why-item"><svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><h3>Attention to Detail</h3><p>We focus on the areas that make a noticeable difference in your space.</p></div>
+        <div class="why-item"><svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h7"/></svg><h3>Flexible Cleaning Options</h3><p>One-time, recurring, residential, commercial, and specialized cleaning available.</p></div>
+        <div class="why-item"><svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><h3>Local Service</h3><p>Proudly serving Greater Moncton and surrounding New Brunswick communities.</p></div>
+        <div class="why-item"><svg class="why-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7z"/><circle cx="12" cy="9" r="2"/></svg><h3>Eco-Friendly Options</h3><p>Eco-conscious cleaning options available for clients who prefer them.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt-bg">
+    <div class="section-wide">
+      <div class="eyebrow">Getting Started</div>
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><h3>Request a Quote</h3><p>Tell us about your property and the cleaning service you need. We'll review your request and get back to you promptly.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><h3>Choose Your Service</h3><p>We confirm the scope, schedule, and pricing to make sure the service is the right fit for your space.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><h3>Enjoy a Cleaner Space</h3><p>Our team handles the cleaning so you can focus on what matters. Consistent quality, every time.</p></div></div>
+      </div>
+      <div style="margin-top:2.5rem;"><a href="#" onclick="showPage('contact')" class="btn btn-primary">Request a Free Quote</a></div>
+    </div>
+  </section>
+
+  <div class="cta-banner">
+    <div class="section-wide" style="max-width:700px;margin-inline:auto;text-align:center;">
+      <h2>Ready for a Cleaner Space?</h2>
+      <p>Request your free quote today and tell us how we can help. We serve Moncton, Dieppe, Riverview, Sackville, and surrounding communities.</p>
+      <div class="cta-banner-btns">
+        <a href="#" onclick="showPage('contact')" class="btn btn-white">Get a Free Quote</a>
+        <a href="tel:+1" class="btn btn-white-outline">Call Now</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-about" class="page">
+  <div class="page-hero">
+    <svg class="page-hero-leaf" viewBox="0 0 300 320" fill="white" aria-hidden="true"><path d="M150 10 L175 60 L230 40 L205 90 L260 105 L215 140 L240 200 L185 175 L178 240 L150 215 L122 240 L115 175 L60 200 L85 140 L40 105 L95 90 L70 40 L125 60 Z"/></svg>
+    <div class="section-wide"><div class="hero-eyebrow">Who We Are</div><h1>Local Cleaning. Dependable Service. Attention to Detail.</h1><p class="lead">A locally owned cleaning company serving Greater Moncton and surrounding communities in New Brunswick.</p></div>
+  </div>
+  <section class="section">
+    <div class="section-wide two-col">
+      <div>
+        <div class="eyebrow">About Maple Leaf Eco Clean</div>
+        <h2 style="margin-bottom:1.25rem;">Locally Owned, Community Focused</h2>
+        <p style="margin-bottom:1rem;">Maple Leaf Eco Clean is a locally owned cleaning company serving Moncton, Dieppe, Riverview, Sackville, and surrounding communities in New Brunswick. We provide professional cleaning solutions for homes, offices, commercial spaces, rentals, move-ins and move-outs, and post-construction properties.</p>
+        <div class="eyebrow" style="margin-top:2rem;">Our Approach</div>
+        <p>We believe a good cleaning service should make life easier. That means clear communication, dependable scheduling, careful attention to detail, and cleaning plans that fit the needs of each property.</p>
+      </div>
+      <div>
+        <div class="eyebrow">Eco-Friendly, Without Limiting Your Options</div>
+        <p style="margin-bottom:1.5rem;">Eco-friendly cleaning remains an important part of the Maple Leaf Eco Clean brand. We can provide eco-conscious cleaning options for clients who prefer them, while also offering broader professional cleaning solutions based on the needs of each space.</p>
+        <div class="eyebrow">Our Commitment</div>
+        <ul class="commit-list">
+          <li>Reliable and respectful service</li>
+          <li>Clear communication</li>
+          <li>Detail-focused cleaning</li>
+          <li>Flexible service options</li>
+          <li>A consistently clean and welcoming result</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <div class="cta-banner"><div style="max-width:600px;margin-inline:auto;text-align:center;"><h2>Need Help Keeping Your Home or Business Clean?</h2><p>Request a free quote today — we'll help find the right service for your space.</p><a href="#" onclick="showPage('contact')" class="btn btn-white" style="margin-top:.5rem;">Request a Free Quote</a></div></div>
+</div>
+
+<div id="page-services" class="page">
+  <div class="page-hero">
+    <svg class="page-hero-leaf" viewBox="0 0 300 320" fill="white" aria-hidden="true"><path d="M150 10 L175 60 L230 40 L205 90 L260 105 L215 140 L240 200 L185 175 L178 240 L150 215 L122 240 L115 175 L60 200 L85 140 L40 105 L95 90 L70 40 L125 60 Z"/></svg>
+    <div class="section-wide"><div class="hero-eyebrow">What We Offer</div><h1>Cleaning Services for Homes, Businesses, Rentals &amp; New Spaces</h1><p class="lead">From routine home cleaning to detailed post-construction cleanup, flexible cleaning services across Greater Moncton.</p></div>
+  </div>
+  <section class="section">
+    <div class="section-wide">
+      <div class="services-grid">
+        <div class="service-card" onclick="showPage('residential')"><svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg><h3>Residential Cleaning</h3><p>Recurring and one-time cleaning for homes and apartments.</p><span class="card-link">View service &rarr;</span></div>
+        <div class="service-card" onclick="showPage('commercial')"><svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg><h3>Commercial &amp; Office Cleaning</h3><p>Professional cleaning for workplaces of all sizes.</p><span class="card-link">View service &rarr;</span></div>
+        <div class="service-card" onclick="showPage('deep')"><svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 6v6l4 2"/></svg><h3>Deep Cleaning</h3><p>Detailed cleaning for spaces needing extra attention.</p><span class="card-link">View service &rarr;</span></div>
+        <div class="service-card" onclick="showPage('moveinout')"><svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/></svg><h3>Move-In / Move-Out Cleaning</h3><p>Thorough cleaning during transitions between homes or occupants.</p><span class="card-link">View service &rarr;</span></div>
+        <div class="service-card" onclick="showPage('construction')"><svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 20h20M4 20V10l8-6 8 6v10"/><rect x="9" y="14" width="6" height="6"/></svg><h3>Post-Construction Cleaning</h3><p>Cleanup for newly built and renovated spaces.</p><span class="card-link">View service &rarr;</span></div>
+        <div class="service-card" onclick="showPage('airbnb')"><svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg><h3>Airbnb &amp; Short-Term Rental</h3><p>Turnover cleaning to prepare properties for guests.</p><span class="card-link">View service &rarr;</span></div>
+      </div>
+      <div style="margin-top:3rem;padding:2rem;background:var(--surface-alt);border-radius:8px;border:1px solid var(--border);"><p style="font-size:1rem;color:var(--text);">Not sure which service you need? <strong>Contact us</strong> and we'll help determine the right option.</p><a href="#" onclick="showPage('contact')" class="btn btn-primary" style="margin-top:1rem;">Contact Us</a></div>
+    </div>
+  </section>
+</div>
+
+<div id="page-residential" class="page">
+  <div class="page-hero"><svg class="page-hero-leaf" viewBox="0 0 300 320" fill="white" aria-hidden="true"><path d="M150 10 L175 60 L230 40 L205 90 L260 105 L215 140 L240 200 L185 175 L178 240 L150 215 L122 240 L115 175 L60 200 L85 140 L40 105 L95 90 L70 40 L125 60 Z"/></svg><div class="section-wide"><div class="hero-eyebrow">Residential Cleaning</div><h1>Reliable Residential Cleaning for a Home That Feels Fresh</h1><p class="lead">Professional house cleaning in Moncton, Dieppe, Riverview, and surrounding areas.</p></div></div>
+  <section class="section"><div class="section-wide two-col"><div><p class="lead" style="margin-bottom:1.25rem;">Keeping up with household cleaning takes time. Maple Leaf Eco Clean provides professional residential cleaning designed to help homeowners, families, renters, and busy professionals enjoy a cleaner home.</p><div class="eyebrow">Residential Cleaning Options</div><ul class="check-list"><li>Recurring weekly, biweekly, or customized cleaning schedules</li><li>One-time home cleaning</li><li>Kitchen and bathroom cleaning</li><li>Dusting and surface cleaning</li><li>Vacuuming and floor care</li><li>Bedroom and living-area cleaning</li><li>Customized cleaning based on your priorities</li></ul></div><div><div class="eyebrow">A Service Built Around Your Home</div><p style="margin-bottom:1.5rem;">Every home is different. We can discuss the size of your space, areas requiring special attention, preferred schedule, and any specific priorities before confirming your service.</p><div class="eyebrow">Eco-Friendly Options</div><p style="margin-bottom:2rem;">Prefer eco-conscious products? Ask about eco-friendly cleaning options when requesting your quote.</p><a href="#" onclick="showPage('contact')" class="btn btn-primary">Get a Free Residential Quote</a></div></div></section>
+  <div class="cta-banner"><div style="max-width:600px;margin-inline:auto;text-align:center;"><h2>Tell Us About Your Home</h2><p>Get a free residential cleaning quote — we'll confirm scope, schedule, and pricing.</p><a href="#" onclick="showPage('contact')" class="btn btn-white" style="margin-top:.5rem;">Request a Quote</a></div></div>
+</div>
+
+<div id="page-commercial" class="page">
+  <div class="page-hero"><svg class="page-hero-leaf" viewBox="0 0 300 320" fill="white" aria-hidden="true"><path d="M150 10 L175 60 L230 40 L205 90 L260 105 L215 140 L240 200 L185 175 L178 240 L150 215 L122 240 L115 175 L60 200 L85 140 L40 105 L95 90 L70 40 L125 60 Z"/></svg><div class="section-wide"><div class="hero-eyebrow">Commercial &amp; Office Cleaning</div><h1>Professional Cleaning for Workplaces That Make a Good Impression</h1><p class="lead">Reliable commercial and office cleaning for businesses in Moncton, Dieppe, Riverview, and surrounding communities.</p></div></div>
+  <section class="section"><div class="section-wide two-col"><div><p class="lead" style="margin-bottom:1.25rem;">A clean workplace supports a professional environment for employees, customers, and visitors. Maple Leaf Eco Clean provides reliable commercial and office cleaning tailored to local businesses.</p><div class="eyebrow">Services May Include</div><ul class="check-list"><li>Office and workspace cleaning</li><li>Reception and common-area cleaning</li><li>Washroom cleaning and sanitizing</li><li>Kitchen and breakroom cleaning</li><li>Dusting and surface cleaning</li><li>Vacuuming and floor cleaning</li><li>Garbage and recycling removal</li><li>Customized recurring cleaning schedules</li></ul></div><div><div class="eyebrow">Flexible for Your Business</div><p style="margin-bottom:2rem;">We can work with offices, professional spaces, small businesses, and property managers to establish a cleaning schedule that fits their operations.</p><a href="#" onclick="showPage('contact')" class="btn btn-primary">Request a Commercial Quote</a></div></div></section>
+  <div class="cta-banner"><div style="max-width:600px;margin-inline:auto;text-align:center;"><h2>Let's Discuss Your Workplace</h2><p>Contact us to discuss your space and request a commercial cleaning quote.</p><a href="#" onclick="showPage('contact')" class="btn btn-white" style="margin-top:.5rem;">Contact Us</a></div></div>
+</div>
+
+<div id="page-moveinout" class="page">
+  <div class="page-hero"><svg class="page-hero-leaf" viewBox="0 0 300 320" fill="white" aria-hidden="true"><path d="M150 10 L175 60 L230 40 L205 90 L260 105 L215 140 L240 200 L185 175 L178 240 L150 215 L122 240 L115 175 L60 200 L85 140 L40 105 L95 90 L70 40 L125 60 Z"/></svg><div class="section-wide"><div class="hero-eyebrow">Move-In / Move-Out Cleaning</div><h1>Move With Less Stress. We'll Handle the Cleaning.</h1><p class="lead">Detailed move-in and move-out cleaning for tenants, homeowners, landlords, and property managers in Greater Moncton.</p></div></div>
+  <section class="section"><div class="section-wide two-col"><div><p class="lead" style="margin-bottom:1.25rem;">Moving comes with enough to manage. Our move-in and move-out cleaning service helps prepare a property for its next chapter.</p><div class="eyebrow">Ideal For</div><ul class="check-list" style="margin-bottom:1.5rem;"><li>Tenants preparing to leave a rental</li><li>Homeowners moving in or out</li><li>Landlords and property managers</li><li>Rental properties between occupants</li><li>Homes being prepared for sale or possession</li></ul><div class="eyebrow">Cleaning Can Include</div><ul class="check-list"><li>Kitchen and appliance exterior cleaning</li><li>Bathroom cleaning and sanitizing</li><li>Cabinets and accessible surfaces</li><li>Dusting and wiping</li><li>Vacuuming and floor cleaning</li><li>Bedrooms, living areas, and common spaces</li></ul></div><div style="padding-top:3rem;"><a href="#" onclick="showPage('contact')" class="btn btn-primary">Request a Move Cleaning Quote</a></div></div></section>
+  <div class="cta-banner"><div style="max-width:600px;margin-inline:auto;text-align:center;"><h2>Moving Soon?</h2><p>Request a quote and tell us the size and condition of the property — we'll handle the rest.</p><a href="#" onclick="showPage('contact')" class="btn btn-white" style="margin-top:.5rem;">Request a Quote</a></div></div>
+</div>
+
+<div id="page-construction" class="page">
+  <div class="page-hero"><svg class="page-hero-leaf" viewBox="0 0 300 320" fill="white" aria-hidden="true"><path d="M150 10 L175 60 L230 40 L205 90 L260 105 L215 140 L240 200 L185 175 L178 240 L150 215 L122 240 L115 175 L60 200 L85 140 L40 105 L95 90 L70 40 L125 60 Z"/></svg><div class="section-wide"><div class="hero-eyebrow">Post-Construction Cleaning</div><h1>From Construction Site to Clean, Ready-to-Use Space</h1><p class="lead">Post-construction and renovation cleanup for homes, contractors, builders, and property managers in Greater Moncton.</p></div></div>
+  <section class="section"><div class="section-wide two-col"><div><p class="lead" style="margin-bottom:1.25rem;">Construction and renovation work can leave behind dust, debris, and residue even after the main project is finished. Maple Leaf Eco Clean provides post-construction cleaning to prepare newly built or renovated spaces for occupancy.</p><div class="eyebrow">Cleaning May Include</div><ul class="check-list"><li>Dust and fine-particle removal from accessible surfaces</li><li>Wiping doors, trim, baseboards, fixtures, and surfaces</li><li>Vacuuming and floor cleaning</li><li>Kitchen and bathroom cleanup</li><li>Interior glass and mirror cleaning where included in scope</li><li>Final-detail cleaning before occupancy or handover</li></ul></div><div><div class="eyebrow">Who We Work With</div><ul class="check-list" style="margin-bottom:1.5rem;"><li>Homeowners</li><li>Builders and contractors</li><li>Renovation companies</li><li>Property managers</li><li>Commercial property owners</li></ul><p style="margin-bottom:1.5rem;">Post-construction projects vary considerably, so pricing is based on the size, condition, scope, and timeline of each property.</p><a href="#" onclick="showPage('contact')" class="btn btn-primary">Request a Custom Quote</a></div></div></section>
+  <div class="cta-banner"><div style="max-width:600px;margin-inline:auto;text-align:center;"><h2>Project Nearing Completion?</h2><p>Contact us for a customized post-construction cleaning quote.</p><a href="#" onclick="showPage('contact')" class="btn btn-white" style="margin-top:.5rem;">Contact Us</a></div></div>
+</div>
+
+<div id="page-deep" class="page">
+  <div class="page-hero"><svg class="page-hero-leaf" viewBox="0 0 300 320" fill="white" aria-hidden="true"><path d="M150 10 L175 60 L230 40 L205 90 L260 105 L215 140 L240 200 L185 175 L178 240 L150 215 L122 240 L115 175 L60 200 L85 140 L40 105 L95 90 L70 40 L125 60 Z"/></svg><div class="section-wide"><div class="hero-eyebrow">Deep Cleaning</div><h1>A More Detailed Clean for Spaces That Need Extra Attention</h1><p class="lead">Detailed deep cleaning for homes and properties in Moncton, Dieppe, Riverview, and surrounding communities.</p></div></div>
+  <section class="section"><div class="section-wide two-col"><div><p class="lead" style="margin-bottom:1.25rem;">Sometimes regular cleaning isn't enough. Our deep cleaning service provides a more detailed approach for homes and spaces that need extra attention.</p><div class="eyebrow">Deep Cleaning May Include</div><ul class="check-list"><li>Detailed kitchen cleaning</li><li>Bathroom cleaning and sanitizing</li><li>More thorough dusting and surface wiping</li><li>Baseboards and accessible trim</li><li>Vacuuming and detailed floor cleaning</li><li>High-touch areas</li><li>Additional areas agreed upon before service</li></ul></div><div style="padding-top:1rem;"><div class="eyebrow">Customized to Your Space</div><p style="margin-bottom:2rem;">We recommend discussing the condition and size of the property before booking so we can provide an appropriate scope and quote.</p><a href="#" onclick="showPage('contact')" class="btn btn-primary">Request a Deep Cleaning Quote</a></div></div></section>
+  <div class="cta-banner"><div style="max-width:600px;margin-inline:auto;text-align:center;"><h2>Ready for a Reset?</h2><p>Request your deep cleaning quote today.</p><a href="#" onclick="showPage('contact')" class="btn btn-white" style="margin-top:.5rem;">Request a Quote</a></div></div>
+</div>
+
+<div id="page-airbnb" class="page">
+  <div class="page-hero"><svg class="page-hero-leaf" viewBox="0 0 300 320" fill="white" aria-hidden="true"><path d="M150 10 L175 60 L230 40 L205 90 L260 105 L215 140 L240 200 L185 175 L178 240 L150 215 L122 240 L115 175 L60 200 L85 140 L40 105 L95 90 L70 40 L125 60 Z"/></svg><div class="section-wide"><div class="hero-eyebrow">Airbnb &amp; Short-Term Rental Cleaning</div><h1>Reliable Turnover Cleaning for Short-Term Rentals</h1><p class="lead">Reliable Airbnb and short-term rental turnover cleaning in Moncton and surrounding communities.</p></div></div>
+  <section class="section"><div class="section-wide two-col"><div><p class="lead" style="margin-bottom:1.25rem;">Guest-ready presentation matters. Maple Leaf Eco Clean provides turnover cleaning for Airbnb and other short-term rental properties to help hosts and property managers prepare clean, welcoming spaces between stays.</p><div class="eyebrow">Turnover Services May Include</div><ul class="check-list"><li>Kitchen and bathroom cleaning</li><li>Dusting and surface wiping</li><li>Vacuuming and floor cleaning</li><li>Bedroom and common-area reset</li><li>Garbage removal</li><li>Basic visual check of the property</li><li>Additional turnover requirements agreed upon with the host</li></ul></div><div style="padding-top:1rem;"><div class="eyebrow">For Hosts &amp; Property Managers</div><p style="margin-bottom:2rem;">We can discuss recurring turnover needs, property access, timing, and any property-specific checklist requirements.</p><a href="#" onclick="showPage('contact')" class="btn btn-primary">Discuss Turnover Cleaning</a></div></div></section>
+  <div class="cta-banner"><div style="max-width:600px;margin-inline:auto;text-align:center;"><h2>Managing a Short-Term Rental?</h2><p>Contact us to discuss your turnover cleaning needs.</p><a href="#" onclick="showPage('contact')" class="btn btn-white" style="margin-top:.5rem;">Contact Us</a></div></div>
+</div>
+
+<div id="page-contact" class="page">
+  <div class="page-hero"><svg class="page-hero-leaf" viewBox="0 0 300 320" fill="white" aria-hidden="true"><path d="M150 10 L175 60 L230 40 L205 90 L260 105 L215 140 L240 200 L185 175 L178 240 L150 215 L122 240 L115 175 L60 200 L85 140 L40 105 L95 90 L70 40 L125 60 Z"/></svg><div class="section-wide"><div class="hero-eyebrow">Get in Touch</div><h1>Let's Talk About Your Cleaning Needs</h1><p class="lead">Tell us a little about your property and we'll get back to you with options and pricing.</p></div></div>
+  <section class="section">
+    <div class="section-wide two-col">
+      <div>
+        <div class="eyebrow">Request a Free Quote</div>
+        <h2 style="font-size:1.6rem;margin-bottom:.75rem;">We'd Love to Help</h2>
+        <p style="margin-bottom:2rem;">Whether you need recurring cleaning, a one-time deep clean, commercial service, move-in/move-out cleaning, or post-construction cleanup — fill in the form and we'll review your request and get back to you.</p>
+        <form onsubmit="return false;">
+          <div class="form-grid">
+            <div class="form-field"><label>Full Name</label><input type="text" placeholder="Jane Smith"></div>
+            <div class="form-field"><label>Phone Number</label><input type="tel" placeholder="(506) 555-0100"></div>
+            <div class="form-field full"><label>Email Address</label><input type="email" placeholder="jane@email.com"></div>
+            <div class="form-field"><label>Service Needed</label><select><option value="">— Select a service —</option><option>Residential Cleaning</option><option>Commercial &amp; Office Cleaning</option><option>Deep Cleaning</option><option>Move-In / Move-Out Cleaning</option><option>Post-Construction Cleaning</option><option>Airbnb / Short-Term Rental Turnover</option><option>Not sure — please advise</option></select></div>
+            <div class="form-field"><label>Property Type</label><select><option value="">— Select type —</option><option>House</option><option>Apartment / Condo</option><option>Office</option><option>Commercial Space</option><option>Rental Property</option><option>Other</option></select></div>
+            <div class="form-field"><label>City / Community</label><input type="text" placeholder="Moncton, Dieppe, Riverview…"></div>
+            <div class="form-field"><label>Approximate Size / Bedrooms</label><input type="text" placeholder="e.g. 3-bedroom house, 1200 sq ft"></div>
+            <div class="form-field full"><label>Preferred Date / Frequency</label><input type="text" placeholder="e.g. Weekly, one-time in September…"></div>
+            <div class="form-field full"><label>Tell Us About Your Cleaning Needs</label><textarea placeholder="Any additional details about your property, special requirements, or questions…"></textarea></div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top:1.5rem;width:100%;justify-content:center;font-size:1rem;padding:1rem;">Request My Free Quote</button>
+          <p class="form-note">We'll review your request and get back to you as soon as possible. No obligation.</p>
+        </form>
+      </div>
+      <div>
+        <div class="eyebrow">Contact Details</div>
+        <h3 style="margin-bottom:1.25rem;">How to Reach Us</h3>
+        <div style="display:flex;flex-direction:column;gap:1.25rem;margin-bottom:2.5rem;">
+          <div style="display:flex;gap:.875rem;align-items:flex-start;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:2px;color:var(--acc);"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.43 12.74 19.79 19.79 0 01.36 4.1 2 2 0 012.34 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.06 6.06l1.27-.76a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><div><strong style="font-family:'Raleway',sans-serif;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.2rem;">Phone</strong><span style="color:var(--text-muted);">[INSERT BUSINESS PHONE]</span></div></div>
+          <div style="display:flex;gap:.875rem;align-items:flex-start;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:2px;color:var(--acc);"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><div><strong style="font-family:'Raleway',sans-serif;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.2rem;">Email</strong><span style="color:var(--text-muted);">[INSERT BUSINESS EMAIL]</span></div></div>
+          <div style="display:flex;gap:.875rem;align-items:flex-start;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:2px;color:var(--acc);"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><div><strong style="font-family:'Raleway',sans-serif;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.2rem;">Service Area</strong><span style="color:var(--text-muted);">Moncton, Dieppe, Riverview, Sackville, and surrounding communities in New Brunswick</span></div></div>
+        </div>
+        <div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;padding:1.5rem;"><p style="font-size:.9rem;color:var(--text);">We typically respond to quote requests within one business day. For urgent requests, please call directly.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="fn">Maple Leaf Eco Clean</div>
+      <div class="ft" style="margin-top:.2rem;">Reliable. Professional. Eco-Friendly.</div>
+      <p>Professional residential, commercial, office, move-in/move-out, deep, Airbnb, and post-construction cleaning services across Greater Moncton and surrounding communities.</p>
+      <div style="margin-top:1.25rem;font-size:.82rem;"><div>Serving Moncton &bull; Dieppe &bull; Riverview &bull; Sackville &bull; Surrounding Areas</div><div style="margin-top:.4rem;">[INSERT PHONE] &nbsp;|&nbsp; [INSERT EMAIL]</div></div>
+    </div>
+    <div class="footer-col"><h4>Services</h4><a onclick="showPage('residential')">Residential Cleaning</a><a onclick="showPage('commercial')">Commercial Cleaning</a><a onclick="showPage('deep')">Deep Cleaning</a><a onclick="showPage('moveinout')">Move-In / Move-Out</a><a onclick="showPage('construction')">Post-Construction</a><a onclick="showPage('airbnb')">Airbnb Turnovers</a></div>
+    <div class="footer-col"><h4>Company</h4><a onclick="showPage('home')">Home</a><a onclick="showPage('about')">About Us</a><a onclick="showPage('services')">All Services</a><a onclick="showPage('contact')">Contact</a><a>Privacy Policy</a></div>
+    <div class="footer-col"><h4>Get a Free Quote</h4><p style="font-size:.875rem;margin-bottom:1rem;max-width:none;">Ready to get started? Tell us about your property and we'll get back to you.</p><a onclick="showPage('contact')" class="btn btn-primary" style="font-size:.85rem;padding:.65rem 1.25rem;">Request a Quote</a></div>
+  </div>
+  <div class="footer-bottom"><span>&copy; 2025 Maple Leaf Eco Clean. All rights reserved.</span><div class="footer-bottom-links"><a>Privacy Policy</a><a>Sitemap</a></div></div>
+</footer>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const target=document.getElementById('page-'+id);
+  if(target){target.classList.add('active');}
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const navEl=document.getElementById('nav-'+id);
+  if(navEl) navEl.classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+  return false;
+}
+document.querySelectorAll('.service-card').forEach(c=>{
+  c.setAttribute('role','button'); c.setAttribute('tabindex','0');
+  c.addEventListener('keydown',e=>{if(e.key==='Enter')c.click();});
+});
+</script>
