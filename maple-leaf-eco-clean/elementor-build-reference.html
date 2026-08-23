@@ -1,0 +1,492 @@
+<title>MLEC Elementor Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap">
+
+<style>
+:root {
+  --forest:      #163d22;
+  --grove:       #2b6641;
+  --leaf:        #4a9e5c;
+  --leaf-light:  #6abf7a;
+  --mist:        #eef4ec;
+  --ivory:       #f9fdf8;
+  --bark:        #1e2d22;
+  --bark-mid:    #3a5240;
+  --bark-light:  #5a7460;
+  --border:      #cde0cc;
+  --bg:          var(--ivory);
+  --surface:     #ffffff;
+  --surface-alt: var(--mist);
+  --text:        var(--bark);
+  --text-muted:  var(--bark-light);
+  --acc:         var(--leaf);
+  --code-bg:     #e8f2e8;
+  --code-border: var(--border);
+  --sidebar-bg:  var(--forest);
+  --sidebar-text: rgba(255,255,255,.82);
+  --sidebar-head: #ffffff;
+  --sidebar-acc: var(--leaf-light);
+  --sidebar-active-bg: rgba(255,255,255,.12);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1a0f; --surface: #132018; --surface-alt: #182c1d;
+    --text: #e4f0e7; --text-muted: #8aad94; --border: #2a4433;
+    --acc: #62c478; --code-bg: #182c1d; --code-border: #2a4433;
+    --sidebar-bg: #0a1a0e; --sidebar-acc: #6abf7a;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1a0f; --surface: #132018; --surface-alt: #182c1d;
+  --text: #e4f0e7; --text-muted: #8aad94; --border: #2a4433;
+  --acc: #62c478; --code-bg: #182c1d; --code-border: #2a4433;
+  --sidebar-bg: #0a1a0e; --sidebar-acc: #6abf7a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; scroll-behavior: smooth; }
+body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; display: flex; min-height: 100vh; }
+a { color: var(--acc); text-decoration: none; }
+ul, ol { padding-left: 1.25rem; }
+li { margin-bottom: .3rem; }
+.sidebar { width: 260px; flex-shrink: 0; background: var(--sidebar-bg); position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 2rem 0 3rem; }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 4px; }
+.sidebar-brand { padding: 0 1.5rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.1); margin-bottom: 1.25rem; }
+.sidebar-brand .sb-name { font-family: 'Raleway', sans-serif; font-weight: 800; font-size: .95rem; color: var(--sidebar-head); letter-spacing: .06em; text-transform: uppercase; }
+.sidebar-brand .sb-sub { font-size: .75rem; color: var(--sidebar-acc); font-family: 'Raleway', sans-serif; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-top: .15rem; }
+.sidebar-brand .sb-desc { font-size: .78rem; color: var(--sidebar-text); margin-top: .6rem; line-height: 1.5; }
+.nav-group { margin-bottom: .25rem; }
+.nav-group-title { font-family: 'Raleway', sans-serif; font-size: .67rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.35); padding: .8rem 1.5rem .3rem; }
+.nav-group a { display: block; font-size: .82rem; color: var(--sidebar-text); padding: .38rem 1.5rem .38rem 1.75rem; transition: color .12s, background .12s; line-height: 1.4; }
+.nav-group a:hover { color: #fff; background: var(--sidebar-active-bg); }
+.main { flex: 1; min-width: 0; padding: 3rem clamp(1.5rem, 5vw, 4rem) 5rem; max-width: 900px; }
+h1, h2, h3, h4 { font-family: 'Raleway', sans-serif; color: var(--text); text-wrap: balance; }
+h1 { font-size: 2rem; font-weight: 800; letter-spacing: -.02em; margin-bottom: .5rem; }
+h2 { font-size: 1.35rem; font-weight: 800; letter-spacing: -.01em; margin-top: 3rem; margin-bottom: 1rem; padding-bottom: .6rem; border-bottom: 2px solid var(--border); }
+h3 { font-size: 1.05rem; font-weight: 700; margin-top: 1.75rem; margin-bottom: .5rem; }
+h4 { font-size: .88rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted); margin-top: 1.25rem; margin-bottom: .4rem; }
+p { color: var(--text-muted); margin-bottom: .75rem; max-width: 72ch; }
+strong { color: var(--text); font-weight: 700; }
+.page-header { border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; margin-bottom: 2.5rem; }
+.badge { display: inline-block; background: var(--acc); color: #fff; font-family: 'Raleway', sans-serif; font-size: .67rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .22rem .75rem; border-radius: 100px; margin-bottom: .75rem; }
+.section-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+.widget-row { display: flex; align-items: baseline; gap: .75rem; padding: .55rem 0; border-bottom: 1px solid var(--border); }
+.widget-row:last-child { border-bottom: none; padding-bottom: 0; }
+.widget-row:first-child { padding-top: 0; }
+.widget-name { font-family: 'Raleway', sans-serif; font-weight: 700; font-size: .82rem; color: var(--text); flex-shrink: 0; min-width: 150px; }
+.widget-detail { font-size: .82rem; color: var(--text-muted); }
+pre, code { font-family: 'Courier New', Courier, monospace; font-size: .8rem; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem 1.25rem; overflow-x: auto; margin: .75rem 0 1rem; line-height: 1.6; color: var(--text); }
+code:not(pre code) { background: var(--code-bg); border: 1px solid var(--code-border); padding: .1em .4em; border-radius: 3px; font-size: .82rem; color: var(--acc); }
+.swatch-row { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1rem 0; }
+.swatch { display: flex; align-items: center; gap: .6rem; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: .5rem .75rem; }
+.swatch-dot { width: 20px; height: 20px; border-radius: 4px; flex-shrink: 0; border: 1px solid rgba(0,0,0,.1); }
+.swatch-info { display: flex; flex-direction: column; line-height: 1.3; }
+.swatch-label { font-family: 'Raleway', sans-serif; font-weight: 700; font-size: .75rem; color: var(--text); }
+.swatch-hex { font-family: monospace; font-size: .72rem; color: var(--text-muted); }
+.tag { display: inline-block; font-family: 'Raleway', sans-serif; font-size: .67rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .18rem .6rem; border-radius: 4px; margin-right: .3rem; }
+.tag-widget { background: #e0f0e8; color: #1a5c30; }
+.tag-setting { background: #e8eaf6; color: #3949ab; }
+.tag-astra { background: #fce4ec; color: #c62828; }
+.step-list { counter-reset: step; list-style: none; padding: 0; margin: .75rem 0 1rem; }
+.step-list li { counter-increment: step; display: flex; gap: .75rem; align-items: baseline; padding: .45rem 0; border-bottom: 1px solid var(--border); font-size: .88rem; color: var(--text-muted); }
+.step-list li:last-child { border-bottom: none; }
+.step-list li::before { content: counter(step); font-family: 'Raleway', sans-serif; font-weight: 800; font-size: .72rem; background: var(--acc); color: #fff; width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.note { background: var(--surface-alt); border-left: 3px solid var(--acc); border-radius: 0 6px 6px 0; padding: .85rem 1rem; font-size: .85rem; color: var(--text-muted); margin: 1rem 0; }
+.note strong { color: var(--text); }
+table.settings { width: 100%; border-collapse: collapse; font-size: .82rem; margin: .75rem 0 1rem; }
+table.settings th { font-family: 'Raleway', sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); text-align: left; padding: .4rem .75rem; border-bottom: 2px solid var(--border); }
+table.settings td { padding: .55rem .75rem; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
+table.settings td:first-child { color: var(--text); font-weight: 600; }
+table.settings tr:last-child td { border-bottom: none; }
+.section-label { font-family: 'Raleway', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--acc); display: flex; align-items: center; gap: .5rem; margin-bottom: .5rem; }
+.section-label::before { content: ''; display: inline-block; width: 18px; height: 2px; background: var(--acc); }
+@media (max-width: 720px) { body { flex-direction: column; } .sidebar { width: 100%; height: auto; position: static; padding: 1rem 0; } .nav-group { display: flex; flex-wrap: wrap; gap: .25rem; padding: 0 1rem; } .nav-group a { border-radius: 4px; padding: .3rem .6rem; } .nav-group-title { display: none; } .main { padding: 1.5rem 1rem 3rem; } }
+</style>
+
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sb-name">Maple Leaf Eco Clean</div>
+    <div class="sb-sub">Elementor Build Reference</div>
+    <div class="sb-desc">Use alongside the HTML prototype while building in Elementor on Astra.</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Setup</div>
+    <a href="#global-colors">Global Colors</a>
+    <a href="#global-fonts">Global Fonts</a>
+    <a href="#custom-css">Custom CSS</a>
+    <a href="#astra-header">Astra Header</a>
+    <a href="#astra-footer">Astra Footer</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Components</div>
+    <a href="#comp-eyebrow">Eyebrow Label</a>
+    <a href="#comp-hero">Hero Section</a>
+    <a href="#comp-service-card">Service Card</a>
+    <a href="#comp-checklist">Checklist</a>
+    <a href="#comp-cta">CTA Banner</a>
+    <a href="#comp-pills">Area Pills</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">Pages</div>
+    <a href="#page-home">Home</a>
+    <a href="#page-about">About</a>
+    <a href="#page-services">Services</a>
+    <a href="#page-service-detail">Service Detail (&times;6)</a>
+    <a href="#page-contact">Contact</a>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="page-header">
+    <div class="badge">Build Reference v1</div>
+    <h1>Maple Leaf Eco Clean &mdash; Elementor Reference</h1>
+    <p>Page-by-page guide for building the site in Elementor on Astra. Match each section to the HTML prototype. Colours, fonts, and CSS are all specified here.</p>
+  </div>
+
+  <h2 id="global-colors">1. Global Colors</h2>
+  <p>Set these in <strong>Elementor &rarr; Site Settings &rarr; Global Colors</strong>.</p>
+  <div class="swatch-row">
+    <div class="swatch"><div class="swatch-dot" style="background:#4a9e5c;"></div><div class="swatch-info"><div class="swatch-label">Primary (Leaf)</div><div class="swatch-hex">#4a9e5c</div></div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#163d22;"></div><div class="swatch-info"><div class="swatch-label">Secondary (Forest)</div><div class="swatch-hex">#163d22</div></div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#2b6641;"></div><div class="swatch-info"><div class="swatch-label">Accent (Grove)</div><div class="swatch-hex">#2b6641</div></div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#1e2d22;"></div><div class="swatch-info"><div class="swatch-label">Text (Bark)</div><div class="swatch-hex">#1e2d22</div></div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#5a7460;"></div><div class="swatch-info"><div class="swatch-label">Text Muted</div><div class="swatch-hex">#5a7460</div></div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#f9fdf8;border:1px solid #cde0cc;"></div><div class="swatch-info"><div class="swatch-label">Background</div><div class="swatch-hex">#f9fdf8</div></div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#eef4ec;"></div><div class="swatch-info"><div class="swatch-label">Surface Alt (Mist)</div><div class="swatch-hex">#eef4ec</div></div></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#6abf7a;"></div><div class="swatch-info"><div class="swatch-label">Leaf Light</div><div class="swatch-hex">#6abf7a</div></div></div>
+  </div>
+  <div class="note"><strong>Elementor Pro:</strong> Set in Global Colors so they appear as tokens in every widget&apos;s color picker. On Free, hardcode the hex values directly.</div>
+
+  <h2 id="global-fonts">2. Global Fonts</h2>
+  <p>Set in <strong>Elementor &rarr; Site Settings &rarr; Global Fonts</strong>. Both are Google Fonts &mdash; Elementor loads them automatically.</p>
+  <table class="settings">
+    <thead><tr><th>Role</th><th>Family</th><th>Weight</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td>Primary (Headings)</td><td>Raleway</td><td>800 (ExtraBold)</td><td>H1, H2, H3, eyebrow labels, nav, buttons</td></tr>
+      <tr><td>Secondary (Body)</td><td>Nunito</td><td>400 / 600 / 700</td><td>Body text, paragraphs, form fields</td></tr>
+    </tbody>
+  </table>
+  <h4>Type scale</h4>
+  <table class="settings">
+    <thead><tr><th>Element</th><th>Size</th><th>Weight</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>H1</td><td>clamp(2.4rem, 5vw, 4rem)</td><td>800</td><td>Hero headings only</td></tr>
+      <tr><td>H2</td><td>clamp(1.8rem, 3vw, 2.8rem)</td><td>800</td><td>Section headings</td></tr>
+      <tr><td>H3</td><td>1.2rem</td><td>700</td><td>Card titles, subsections</td></tr>
+      <tr><td>Eyebrow</td><td>0.78rem</td><td>700</td><td>ALL CAPS &middot; letter-spacing 0.14em &middot; Leaf color</td></tr>
+      <tr><td>Body</td><td>1rem</td><td>400</td><td>Muted bark-light color</td></tr>
+      <tr><td>Lead</td><td>1.1rem</td><td>400</td><td>Intro paragraphs below H1/H2</td></tr>
+      <tr><td>Button</td><td>0.92rem</td><td>700</td><td>Raleway &middot; letter-spacing 0.02em</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="custom-css">3. Custom CSS</h2>
+  <p>Paste into <strong>Elementor &rarr; Site Settings &rarr; Custom CSS</strong> (or Appearance &rarr; Additional CSS).</p>
+<pre>/* Maple Leaf Eco Clean &mdash; Design tokens + utility classes */
+:root {
+  --forest:     #163d22;
+  --grove:      #2b6641;
+  --leaf:       #4a9e5c;
+  --leaf-light: #6abf7a;
+  --mist:       #eef4ec;
+  --ivory:      #f9fdf8;
+  --bark:       #1e2d22;
+  --bark-light: #5a7460;
+  --border:     #cde0cc;
+}
+
+/* Eyebrow label */
+.mlec-eyebrow {
+  font-family: &apos;Raleway&apos;, sans-serif;
+  font-size: .78rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--leaf);
+  display: flex; align-items: center; gap: .5rem;
+  margin-bottom: .75rem;
+}
+.mlec-eyebrow::before {
+  content: &apos;&apos;; display: inline-block;
+  width: 22px; height: 2px; background: var(--leaf);
+}
+
+/* Green checkmark list */
+.mlec-checklist { list-style: none; padding: 0; margin: 1rem 0; }
+.mlec-checklist li {
+  display: flex; align-items: flex-start; gap: .75rem;
+  padding: .3rem 0; font-size: .95rem; color: var(--bark-light);
+}
+.mlec-checklist li::before {
+  content: &apos;&apos;; flex-shrink: 0;
+  width: 18px; height: 18px; margin-top: 2px;
+  background: url(&quot;data:image/svg+xml,%3Csvg xmlns=&apos;http://www.w3.org/2000/svg&apos; viewBox=&apos;0 0 20 20&apos; fill=&apos;%234a9e5c&apos;%3E%3Cpath fill-rule=&apos;evenodd&apos; d=&apos;M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z&apos;/%3E%3C/svg%3E&quot;) center/contain no-repeat;
+}
+
+/* Service card */
+.mlec-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--leaf);
+  border-radius: 6px;
+  padding: 1.5rem 1.75rem;
+  transition: transform .18s, box-shadow .18s;
+}
+.mlec-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(0,0,0,.08);
+}
+
+/* Area pill */
+.mlec-pill {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: .4rem 1.1rem;
+  font-family: &apos;Raleway&apos;, sans-serif;
+  font-weight: 700; font-size: .82rem;
+  color: var(--bark);
+  display: inline-flex; align-items: center; gap: .4rem;
+}</pre>
+
+  <h2 id="astra-header">4. Astra Header (Navigation)</h2>
+  <p>Build in <strong>Astra &rarr; Header Builder</strong>, not Elementor. Provides a reliable sticky fixed header.</p>
+  <div class="section-block">
+    <h3 style="margin-top:0;">Header Builder Settings</h3>
+    <div class="widget-row"><div class="widget-name"><span class="tag tag-astra">Astra</span> Layout</div><div class="widget-detail">Full width &middot; Single row</div></div>
+    <div class="widget-row"><div class="widget-name">Row height</div><div class="widget-detail">68px</div></div>
+    <div class="widget-row"><div class="widget-name">Background</div><div class="widget-detail"><code>#163d22</code> (Forest) &middot; Sticky enabled</div></div>
+    <div class="widget-row"><div class="widget-name">Box shadow</div><div class="widget-detail"><code>0 2px 20px rgba(0,0,0,.25)</code></div></div>
+    <div class="widget-row"><div class="widget-name">Logo</div><div class="widget-detail">Upload client logo, or HTML widget with inline SVG from prototype</div></div>
+  </div>
+  <div class="section-block">
+    <h3 style="margin-top:0;">Menu Styling</h3>
+    <div class="widget-row"><div class="widget-name">Item color</div><div class="widget-detail"><code>rgba(255,255,255,.82)</code></div></div>
+    <div class="widget-row"><div class="widget-name">Hover color</div><div class="widget-detail"><code>#ffffff</code> &middot; bg <code>rgba(255,255,255,.12)</code></div></div>
+    <div class="widget-row"><div class="widget-name">Font</div><div class="widget-detail">Nunito &middot; 600 &middot; 0.85rem &middot; letter-spacing 0.01em</div></div>
+    <div class="widget-row"><div class="widget-name">CTA button</div><div class="widget-detail">&ldquo;Get a Free Quote&rdquo; &rarr; bg <code>#4a9e5c</code>, text white, radius 6px, weight 700</div></div>
+    <div class="widget-row"><div class="widget-name">Mobile collapse</div><div class="widget-detail">980px breakpoint</div></div>
+  </div>
+  <h4>Menu Items</h4>
+  <p>Home &middot; Residential &middot; Commercial &middot; Services &middot; About &middot; Contact &middot; <strong>Get a Free Quote</strong> (button)</p>
+
+  <h2 id="astra-footer">5. Astra Footer</h2>
+  <p>Build in <strong>Astra &rarr; Footer Builder</strong> or as an Elementor footer template. 4-column layout on desktop.</p>
+  <div class="section-block">
+    <div class="widget-row"><div class="widget-name">Background</div><div class="widget-detail"><code>#163d22</code> (Forest)</div></div>
+    <div class="widget-row"><div class="widget-name">Text color</div><div class="widget-detail"><code>rgba(255,255,255,.75)</code></div></div>
+    <div class="widget-row"><div class="widget-name">Column 1 (2fr)</div><div class="widget-detail">Brand name + tagline + description + phone/email placeholders</div></div>
+    <div class="widget-row"><div class="widget-name">Column 2</div><div class="widget-detail">Services: Residential, Commercial, Deep, Move-In/Out, Post-Construction, Airbnb</div></div>
+    <div class="widget-row"><div class="widget-name">Column 3</div><div class="widget-detail">Company: Home, About, All Services, Contact, Privacy Policy</div></div>
+    <div class="widget-row"><div class="widget-name">Column 4 (1.5fr)</div><div class="widget-detail">Get a Free Quote heading + text + green CTA button</div></div>
+    <div class="widget-row"><div class="widget-name">Bottom bar</div><div class="widget-detail">&copy; 2025 Maple Leaf Eco Clean &middot; Privacy Policy &middot; Sitemap &mdash; <code>1px rgba(255,255,255,.1)</code> top border</div></div>
+    <div class="widget-row"><div class="widget-name">Padding</div><div class="widget-detail">Top: clamp(3rem,6vw,4.5rem) &middot; Bottom: 2rem</div></div>
+  </div>
+
+  <h2 id="comp-eyebrow">6. Reusable Components</h2>
+  <div class="section-label">Component: Eyebrow Label</div>
+  <p>Small all-caps label above every section heading. Use a Heading (H6) or HTML widget.</p>
+  <div class="section-block">
+    <div class="widget-row"><div class="widget-name"><span class="tag tag-widget">Widget</span></div><div class="widget-detail">Heading H6 or HTML widget with class <code>mlec-eyebrow</code></div></div>
+    <div class="widget-row"><div class="widget-name">Color</div><div class="widget-detail"><code>#4a9e5c</code> (Leaf)</div></div>
+    <div class="widget-row"><div class="widget-name">Font</div><div class="widget-detail">Raleway 700 &middot; 0.78rem &middot; ALL CAPS &middot; letter-spacing 0.14em</div></div>
+  </div>
+  <div class="note">The <code>::before</code> rule in the custom CSS adds the green line prefix automatically.</div>
+
+  <h3 id="comp-hero">Hero Section</h3>
+  <div class="section-block">
+    <div class="widget-row"><div class="widget-name"><span class="tag tag-setting">Section</span></div><div class="widget-detail">Full width &middot; min-height 560px &middot; flex align center</div></div>
+    <div class="widget-row"><div class="widget-name">Background</div><div class="widget-detail"><code>#163d22</code> solid (or photo + 70%+ dark overlay)</div></div>
+    <div class="widget-row"><div class="widget-name">Padding</div><div class="widget-detail">Top/Bottom clamp(4rem,10vw,7rem) &middot; Left/Right clamp(1.5rem,8vw,6rem)</div></div>
+    <div class="widget-row"><div class="widget-name">Eyebrow color</div><div class="widget-detail"><code>#6abf7a</code> (Leaf Light) on dark backgrounds</div></div>
+    <div class="widget-row"><div class="widget-name">H1</div><div class="widget-detail">Color <code>#ffffff</code> &middot; Raleway 800 &middot; clamp(2.4rem,5vw,4rem)</div></div>
+    <div class="widget-row"><div class="widget-name">Lead paragraph</div><div class="widget-detail">Color <code>rgba(255,255,255,.78)</code> &middot; 1.1rem &middot; max 56ch</div></div>
+    <div class="widget-row"><div class="widget-name">Primary button</div><div class="widget-detail">bg <code>#4a9e5c</code> &middot; white text &middot; radius 6px</div></div>
+    <div class="widget-row"><div class="widget-name">Secondary button</div><div class="widget-detail">Transparent &middot; white border 2px &middot; white text</div></div>
+    <div class="widget-row"><div class="widget-name">Leaf watermark</div><div class="widget-detail">HTML widget with SVG from prototype &middot; position absolute right &middot; opacity 0.12</div></div>
+  </div>
+  <h4>Page Hero (inner pages)</h4>
+  <p>Shorter: padding clamp(3rem,7vw,5rem) top/bottom, no min-height. Forest green bg, H1 + lead only.</p>
+
+  <h3 id="comp-service-card">Service Card</h3>
+  <div class="section-block">
+    <div class="widget-row"><div class="widget-name"><span class="tag tag-widget">Widget</span></div><div class="widget-detail">Icon Box or HTML with class <code>mlec-card</code></div></div>
+    <div class="widget-row"><div class="widget-name">Background</div><div class="widget-detail"><code>#ffffff</code></div></div>
+    <div class="widget-row"><div class="widget-name">Border</div><div class="widget-detail"><code>1px solid #cde0cc</code> + left accent <code>4px solid #4a9e5c</code></div></div>
+    <div class="widget-row"><div class="widget-name">Border radius</div><div class="widget-detail">6px &middot; padding 1.5rem 1.75rem</div></div>
+    <div class="widget-row"><div class="widget-name">Icon</div><div class="widget-detail">36&times;36px &middot; color <code>#4a9e5c</code></div></div>
+    <div class="widget-row"><div class="widget-name">Hover</div><div class="widget-detail">translateY(-3px) &middot; box-shadow <code>0 8px 32px rgba(0,0,0,.08)</code></div></div>
+    <div class="widget-row"><div class="widget-name">Grid</div><div class="widget-detail">3-col desktop &middot; auto-fill minmax(280px,1fr) &middot; gap 1.5rem</div></div>
+  </div>
+
+  <h3 id="comp-checklist">Checklist</h3>
+  <div class="section-block">
+    <div class="widget-row"><div class="widget-name"><span class="tag tag-widget">Widget</span></div><div class="widget-detail">HTML widget &mdash; <code>&lt;ul class="mlec-checklist"&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;</code></div></div>
+    <div class="widget-row"><div class="widget-name">Icon</div><div class="widget-detail">Auto-injected via CSS <code>::before</code> &mdash; green circle checkmark, no manual entry</div></div>
+  </div>
+
+  <h3 id="comp-cta">CTA Banner</h3>
+  <div class="section-block">
+    <div class="widget-row"><div class="widget-name"><span class="tag tag-setting">Section</span></div><div class="widget-detail">Full width &middot; bg <code>#163d22</code> &middot; padding clamp(3rem,6vw,4.5rem) &middot; text centered</div></div>
+    <div class="widget-row"><div class="widget-name">H2</div><div class="widget-detail">Color <code>#ffffff</code></div></div>
+    <div class="widget-row"><div class="widget-name">Paragraph</div><div class="widget-detail">Color <code>rgba(255,255,255,.72)</code> &middot; max 52ch</div></div>
+    <div class="widget-row"><div class="widget-name">Primary button</div><div class="widget-detail">White bg <code>#ffffff</code> &middot; text <code>#2b6641</code> (Grove)</div></div>
+    <div class="widget-row"><div class="widget-name">Secondary button</div><div class="widget-detail">Transparent &middot; white border 2px &middot; white text</div></div>
+  </div>
+  <div class="note"><strong>Save as a Global Widget</strong> (Pro) or duplicate the section across pages to keep it consistent.</div>
+
+  <h3 id="comp-pills">Area Pills</h3>
+  <div class="section-block">
+    <div class="widget-row"><div class="widget-name"><span class="tag tag-widget">Widget</span></div><div class="widget-detail">HTML widget &mdash; inline flex row of <code>&lt;span class="mlec-pill"&gt;</code> elements</div></div>
+    <div class="widget-row"><div class="widget-name">Locations</div><div class="widget-detail">Moncton &middot; Dieppe &middot; Riverview &middot; Sackville &middot; Surrounding Areas</div></div>
+  </div>
+
+  <h2 id="page-home">7. Page: Home</h2>
+
+  <div class="section-label">Section 1 of 6</div>
+  <div class="section-block">
+    <h3 style="margin-top:0;">Hero</h3>
+    <div class="widget-row"><div class="widget-name">Type</div><div class="widget-detail">Full-width section &middot; forest green bg &middot; min-height 560px</div></div>
+    <div class="widget-row"><div class="widget-name">Content width</div><div class="widget-detail">Max 640px &middot; left-aligned</div></div>
+    <div class="widget-row"><div class="widget-name">Eyebrow</div><div class="widget-detail">&ldquo;Professional Local Cleaning Services&rdquo; &middot; leaf-light color</div></div>
+    <div class="widget-row"><div class="widget-name">H1</div><div class="widget-detail">&ldquo;Professional Cleaning Services You Can Trust&rdquo;</div></div>
+    <div class="widget-row"><div class="widget-name">Lead</div><div class="widget-detail">&ldquo;Reliable residential, commercial, move-in/move-out, post-construction, and deep cleaning across Moncton, Dieppe, Riverview, and surrounding communities.&rdquo;</div></div>
+    <div class="widget-row"><div class="widget-name">Buttons</div><div class="widget-detail">Get a Free Quote (primary green) &middot; Call Now (white outline &rarr; tel: link)</div></div>
+  </div>
+
+  <div class="section-label">Section 2 of 6</div>
+  <div class="section-block">
+    <h3 style="margin-top:0;">Intro Split</h3>
+    <div class="widget-row"><div class="widget-name">Layout</div><div class="widget-detail">2-col: 1.2fr / 1fr &middot; gap 4rem &middot; collapses at 760px</div></div>
+    <div class="widget-row"><div class="widget-name">Left</div><div class="widget-detail">Eyebrow + H2 &ldquo;Detail-Focused Cleaning&hellip;&rdquo; + 2 paragraphs + 2 buttons</div></div>
+    <div class="widget-row"><div class="widget-name">Right</div><div class="widget-detail">Mist-bg card (radius 12px, padding 2rem): &ldquo;Serving Greater Moncton&rdquo; H3 + area pills + note text</div></div>
+    <div class="widget-row"><div class="widget-name">Section bg</div><div class="widget-detail"><code>#f9fdf8</code></div></div>
+  </div>
+
+  <div class="section-label">Section 3 of 6</div>
+  <div class="section-block">
+    <h3 style="margin-top:0;">Services Grid</h3>
+    <div class="widget-row"><div class="widget-name">Section bg</div><div class="widget-detail"><code>#eef4ec</code> (Mist)</div></div>
+    <div class="widget-row"><div class="widget-name">Eyebrow + H2</div><div class="widget-detail">&ldquo;What We Offer&rdquo; &middot; &ldquo;Our Services&rdquo;</div></div>
+    <div class="widget-row"><div class="widget-name">Cards</div><div class="widget-detail">6 service cards &middot; 3-col desktop / 2-col tablet / 1-col mobile &middot; each links to service page</div></div>
+  </div>
+
+  <div class="section-label">Section 4 of 6</div>
+  <div class="section-block">
+    <h3 style="margin-top:0;">Why Us</h3>
+    <div class="widget-row"><div class="widget-name">Section bg</div><div class="widget-detail"><code>#f9fdf8</code></div></div>
+    <div class="widget-row"><div class="widget-name">Widget</div><div class="widget-detail">5&times; Icon Box &middot; icon 32px leaf color &middot; no card bg &middot; auto-fill minmax(220px,1fr) grid</div></div>
+    <div class="widget-row"><div class="widget-name">Items</div><div class="widget-detail">Reliable Service &middot; Attention to Detail &middot; Flexible Options &middot; Local Service &middot; Eco-Friendly Options</div></div>
+  </div>
+
+  <div class="section-label">Section 5 of 6</div>
+  <div class="section-block">
+    <h3 style="margin-top:0;">How It Works</h3>
+    <div class="widget-row"><div class="widget-name">Section bg</div><div class="widget-detail"><code>#eef4ec</code></div></div>
+    <div class="widget-row"><div class="widget-name">Steps</div><div class="widget-detail">3 step rows: large number (Raleway 900 &middot; 3.5rem &middot; leaf &middot; opacity 0.25) + heading + paragraph</div></div>
+    <div class="widget-row"><div class="widget-name">Content</div><div class="widget-detail">1. Request a Quote &middot; 2. Choose Your Service &middot; 3. Enjoy a Cleaner Space</div></div>
+    <div class="widget-row"><div class="widget-name">Button</div><div class="widget-detail">&ldquo;Request a Free Quote&rdquo; &rarr; /contact</div></div>
+  </div>
+
+  <div class="section-label">Section 6 of 6</div>
+  <div class="section-block">
+    <h3 style="margin-top:0;">CTA Banner</h3>
+    <p style="margin:0;">&ldquo;Ready for a Cleaner Space?&rdquo; &mdash; see <a href="#comp-cta">CTA Banner component</a>. Two buttons: Get a Free Quote + Call Now.</p>
+  </div>
+
+  <h2 id="page-about">8. Page: About</h2>
+  <div class="section-block" style="margin-bottom:.75rem;">
+    <h3 style="margin-top:0;">Section 1 &mdash; Page Hero</h3>
+    <div class="widget-row"><div class="widget-name">Eyebrow</div><div class="widget-detail">&ldquo;Who We Are&rdquo;</div></div>
+    <div class="widget-row"><div class="widget-name">H1</div><div class="widget-detail">&ldquo;Local Cleaning. Dependable Service. Attention to Detail.&rdquo;</div></div>
+    <div class="widget-row"><div class="widget-name">Lead</div><div class="widget-detail">&ldquo;A locally owned cleaning company serving Greater Moncton and surrounding communities in New Brunswick.&rdquo;</div></div>
+  </div>
+  <div class="section-block" style="margin-bottom:.75rem;">
+    <h3 style="margin-top:0;">Section 2 &mdash; About Split</h3>
+    <div class="widget-row"><div class="widget-name">Layout</div><div class="widget-detail">2-col &middot; gap 4rem</div></div>
+    <div class="widget-row"><div class="widget-name">Left</div><div class="widget-detail">Eyebrow + H2 &ldquo;Locally Owned, Community Focused&rdquo; + 2 paragraphs + Eyebrow &ldquo;Our Approach&rdquo; + paragraph</div></div>
+    <div class="widget-row"><div class="widget-name">Right</div><div class="widget-detail">Eyebrow + eco paragraph + Eyebrow &ldquo;Our Commitment&rdquo; + 5-item dot list (7px circle, leaf color)</div></div>
+  </div>
+  <div class="section-block">
+    <h3 style="margin-top:0;">Section 3 &mdash; CTA Banner</h3>
+    <p style="margin:0;">&ldquo;Need Help Keeping Your Home or Business Clean?&rdquo; &mdash; single button &ldquo;Request a Free Quote&rdquo;</p>
+  </div>
+
+  <h2 id="page-services">9. Page: Services Overview</h2>
+  <div class="section-block" style="margin-bottom:.75rem;">
+    <h3 style="margin-top:0;">Section 1 &mdash; Page Hero</h3>
+    <div class="widget-row"><div class="widget-name">Eyebrow</div><div class="widget-detail">&ldquo;What We Offer&rdquo;</div></div>
+    <div class="widget-row"><div class="widget-name">H1</div><div class="widget-detail">&ldquo;Cleaning Services for Homes, Businesses, Rentals &amp; New Spaces&rdquo;</div></div>
+    <div class="widget-row"><div class="widget-name">Lead</div><div class="widget-detail">Full service range intro &middot; see prototype</div></div>
+  </div>
+  <div class="section-block">
+    <h3 style="margin-top:0;">Section 2 &mdash; Services Grid</h3>
+    <div class="widget-row"><div class="widget-name">Grid</div><div class="widget-detail">Same 6 cards as Home &middot; each links to respective service page</div></div>
+    <div class="widget-row"><div class="widget-name">Help box</div><div class="widget-detail">Below grid: mist-bg box &ldquo;Not sure which service? Contact us&rdquo; + Contact button</div></div>
+  </div>
+
+  <h2 id="page-service-detail">10. Service Detail Pages (&times;6)</h2>
+  <p>One template, duplicated six times. Only the copy changes between pages.</p>
+  <table class="settings">
+    <thead><tr><th>Page</th><th>Eyebrow</th><th>H1</th></tr></thead>
+    <tbody>
+      <tr><td>Residential</td><td>Residential Cleaning</td><td>Reliable Residential Cleaning for a Home That Feels Fresh</td></tr>
+      <tr><td>Commercial</td><td>Commercial &amp; Office Cleaning</td><td>Professional Cleaning for Workplaces That Make a Good Impression</td></tr>
+      <tr><td>Move-In/Out</td><td>Move-In / Move-Out Cleaning</td><td>Move With Less Stress. We&apos;ll Handle the Cleaning.</td></tr>
+      <tr><td>Post-Construction</td><td>Post-Construction Cleaning</td><td>From Construction Site to Clean, Ready-to-Use Space</td></tr>
+      <tr><td>Deep Cleaning</td><td>Deep Cleaning</td><td>A More Detailed Clean for Spaces That Need Extra Attention</td></tr>
+      <tr><td>Airbnb / STR</td><td>Airbnb &amp; Short-Term Rental Cleaning</td><td>Reliable Turnover Cleaning for Short-Term Rentals</td></tr>
+    </tbody>
+  </table>
+  <h4>Template structure</h4>
+  <ol class="step-list">
+    <li>Page Hero: eyebrow + H1 + lead &middot; forest green bg</li>
+    <li>Two-column section (ivory bg): left = lead + <code>mlec-checklist</code>; right = eyebrow + text + CTA button</li>
+    <li>CTA Banner</li>
+  </ol>
+  <div class="section-block">
+    <h3 style="margin-top:0;">Two-Column Detail</h3>
+    <div class="widget-row"><div class="widget-name">Columns</div><div class="widget-detail">50/50 &middot; gap 4rem &middot; 1-col below 720px</div></div>
+    <div class="widget-row"><div class="widget-name">Left</div><div class="widget-detail">Lead &rarr; Eyebrow &ldquo;[Service] May Include&rdquo; &rarr; Checklist widget</div></div>
+    <div class="widget-row"><div class="widget-name">Right</div><div class="widget-detail">Eyebrow + paragraph(s) &rarr; CTA button &ldquo;Get a Free [Service] Quote&rdquo;</div></div>
+    <div class="widget-row"><div class="widget-name">Section padding</div><div class="widget-detail">clamp(3.5rem,7vw,6rem) top/bottom &middot; clamp(1.5rem,8vw,6rem) left/right</div></div>
+  </div>
+
+  <h2 id="page-contact">11. Page: Contact</h2>
+  <div class="section-block" style="margin-bottom:.75rem;">
+    <h3 style="margin-top:0;">Section 1 &mdash; Page Hero</h3>
+    <div class="widget-row"><div class="widget-name">Eyebrow</div><div class="widget-detail">&ldquo;Get in Touch&rdquo;</div></div>
+    <div class="widget-row"><div class="widget-name">H1</div><div class="widget-detail">&ldquo;Let&apos;s Talk About Your Cleaning Needs&rdquo;</div></div>
+    <div class="widget-row"><div class="widget-name">Lead</div><div class="widget-detail">&ldquo;Tell us a little about your property and we&apos;ll get back to you with options and pricing.&rdquo;</div></div>
+  </div>
+  <div class="section-block">
+    <h3 style="margin-top:0;">Section 2 &mdash; Form + Info</h3>
+    <div class="widget-row"><div class="widget-name">Layout</div><div class="widget-detail">2-col 60/40 &middot; gap 4rem</div></div>
+    <div class="widget-row"><div class="widget-name">Left &mdash; Form</div><div class="widget-detail">Elementor Form widget (or WPForms / Fluent Forms) &middot; 9 fields in 2-col grid</div></div>
+    <div class="widget-row"><div class="widget-name">Right &mdash; Info</div><div class="widget-detail">Phone, Email, Service Area with icons &middot; response-time note box (mist bg)</div></div>
+  </div>
+  <h4>Form fields</h4>
+  <table class="settings">
+    <thead><tr><th>Field</th><th>Type</th><th>Width</th><th>Placeholder</th></tr></thead>
+    <tbody>
+      <tr><td>Full Name</td><td>Text</td><td>50%</td><td>Jane Smith</td></tr>
+      <tr><td>Phone Number</td><td>Tel</td><td>50%</td><td>(506) 555-0100</td></tr>
+      <tr><td>Email Address</td><td>Email</td><td>100%</td><td>jane@email.com</td></tr>
+      <tr><td>Service Needed</td><td>Select</td><td>50%</td><td>&mdash; Select a service &mdash;</td></tr>
+      <tr><td>Property Type</td><td>Select</td><td>50%</td><td>&mdash; Select type &mdash;</td></tr>
+      <tr><td>City / Community</td><td>Text</td><td>50%</td><td>Moncton, Dieppe&hellip;</td></tr>
+      <tr><td>Approx Size / Bedrooms</td><td>Text</td><td>50%</td><td>e.g. 3-bedroom, 1200 sq ft</td></tr>
+      <tr><td>Preferred Date / Frequency</td><td>Text</td><td>100%</td><td>e.g. Weekly, one-time in September&hellip;</td></tr>
+      <tr><td>Tell Us About Your Needs</td><td>Textarea</td><td>100%</td><td>Additional details&hellip;</td></tr>
+    </tbody>
+  </table>
+  <h4>Form styling</h4>
+  <div class="section-block">
+    <div class="widget-row"><div class="widget-name">Input border</div><div class="widget-detail">1.5px solid <code>#cde0cc</code> &middot; radius 6px &middot; focus: <code>#4a9e5c</code></div></div>
+    <div class="widget-row"><div class="widget-name">Input bg</div><div class="widget-detail"><code>#ffffff</code></div></div>
+    <div class="widget-row"><div class="widget-name">Label</div><div class="widget-detail">Raleway 700 &middot; 0.82rem &middot; ALL CAPS &middot; letter-spacing 0.04em &middot; bark color</div></div>
+    <div class="widget-row"><div class="widget-name">Submit button</div><div class="widget-detail">Full width &middot; green bg &middot; Raleway 700 &middot; 1rem &middot; padding 1rem &middot; &ldquo;Request My Free Quote&rdquo;</div></div>
+    <div class="widget-row"><div class="widget-name">Form note</div><div class="widget-detail">0.85rem &middot; muted &middot; &ldquo;We&apos;ll review your request and get back to you as soon as possible. No obligation.&rdquo;</div></div>
+  </div>
+  <div class="note" style="margin-top:2rem;"><strong>Placeholders:</strong> Keep <code>[INSERT BUSINESS PHONE]</code> and <code>[INSERT BUSINESS EMAIL]</code> until the client confirms the actual details.</div>
+
+</main>
